@@ -63,8 +63,6 @@ Não exige framework, banco de dados ou etapa de compilação.
 
 A base preparada reúne:
 
-- **109 registros** da transcrição dos stories fornecida para o projeto.
-- **27 registros complementares** obtidos em outras fontes, nas imagens e na agenda cultural oficial.
 - **136 registros no total**, incluindo ocorrências diárias de atividades recorrentes.
 
 A programação completa ainda não foi verificada. A quantidade de registros pode mudar após revisões.
@@ -120,7 +118,7 @@ Exemplo:
       "Territórios, Conexões e Inovação",
       "palestra",
       "Arena da Conferência",
-      "stories",
+      "instagram",
       "Conteúdo detalhado não informado."
     ]
 
@@ -141,7 +139,7 @@ Regras:
 1. Abra `eventos.json`.
 2. Localize a data em `dias`.
 3. Adicione ou edite o registro.
-4. Informe a fonte e eventuais dúvidas.
+4. Use `observacao` só para informação útil ao visitante (ela aparece no card). Dúvidas internas vão para o `TAREFAS.md`.
 5. Atualize `atualizado_em`.
 6. Valide a sintaxe do JSON.
 7. Faça o commit na branch usada pelo GitHub Pages.
@@ -188,24 +186,18 @@ Para disponibilizar a agenda na raiz do site, use `index.html` como arquivo prin
 - Não inventar horários de término.
 - Mostrar “Local não informado” quando o valor for `null`.
 - Exibir eventos sem horário em uma seção identificada.
-- Manter a origem dos registros complementares.
-- Registrar divergências entre fontes.
+- A única fonte exibida é o Instagram da 100ª Expofeira de Pelotas.
+- Observações aparecem para o público: nada de notas internas sobre origem dos dados. Divergências ficam no `TAREFAS.md`.
 - Não apresentar temas inferidos como conteúdo confirmado de uma palestra.
 - Revisar alterações de nomes, locais e horários antes de publicá-las.
 
 ### Divergência conhecida
 
-O leilão **Só Angus**, em 11 de outubro, aparece às **18h** no Jornal Tradição e às **19h** na agenda da TV El Campo.
-
-Até a confirmação, seu horário deve permanecer como `null`, acompanhado da observação sobre a divergência.
+O leilão **Só Angus**, em 11 de outubro, foi divulgado às **18h** e às **19h**. Até a confirmação, o horário permanece `null`, com a observação "Horário a confirmar".
 
 ## Fontes
 
-- Transcrição dos stories fornecida para o projeto.
-- [Instagram da Expofeira Pelotas](https://www.instagram.com/expofeirapelotas/)
-- [Jornal Tradição Regional](https://www.jornaltradicao.com.br/pelotas/rural/expofeira-pelotas-chega-a-sua-100a-edicao-com-muitas-atracoes/)
-- [Agenda da TV El Campo](https://tvelcampo.com.br/agenda)
-- [UCPel — Crédito Rural na Expofeira](https://ucpel.edu.br/index.php/noticias/ucpel-promove-conferencia-rural-na-100a-expofeira)
+- [Instagram 100ª Expofeira de Pelotas](https://www.instagram.com/expofeirapelotas/)
 
 A programação pode sofrer alterações. Consulte os canais oficiais antes de se deslocar.
 
@@ -230,5 +222,3 @@ A programação pode sofrer alterações. Consulte os canais oficiais antes de s
 ## Informações para visita
 
 O bloco de funcionamento é montado a partir de `funcionamento` e `feriados`, de acordo com o dia selecionado. As seções de restaurantes e experiências são carregadas dos campos `restaurantes` e `experiencias` do JSON, com a fonte em `fonte_informacoes`. As experiências referenciam eventos existentes por data e título; horários e locais vêm da programação, evitando duplicação.
-
-As imagens fornecidas em 05/10/2026 acrescentam o Workshop de Carnes Angus (06/10, 19h, local não informado). O jantar e o concurso de assado já constavam na agenda. A abertura da Fazendinha nos dias úteis foi atualizada para 13h30 conforme a imagem, preservando em observação a divergência com a fonte anterior (14h).

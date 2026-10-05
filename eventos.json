@@ -1,7 +1,7 @@
 {
   "feriados": ["2026-10-12"],
   "funcionamento": {
-    "fonte": "cards_usuario",
+    "fonte": "instagram",
     "campos": ["area", "seg_a_sex", "sab_dom_feriado"],
     "areas": [
       ["Expositores", ["13:00", "21:00"], ["10:00", "21:00"]],
@@ -56,28 +56,18 @@
       "titulo_evento": "III Concurso de Assado Ovino e I Concurso de Costelão"
     }
   ],
-  "fonte_informacoes": "cards_usuario",
+  "fonte_informacoes": "instagram",
   "titulo": "100ª Expofeira de Pelotas",
   "ano": 2026,
   "timezone": "America/Sao_Paulo",
   "atualizado_em": "2026-10-05",
   "programacao_completa_verificada": false,
   "campos": ["hora", "titulo", "tipo", "local", "fonte", "observacao"],
-  "fonte_padrao": "stories",
+  "fonte_padrao": "instagram",
   "fontes": {
-    "agenda_cultural": {"descricao": "Carrossel Programação Cultural (05 a 12/10) de @expofeirapelotas, capturas fornecidas pelo usuário em 05/10/2026. Links individuais não fornecidos."},
-    "posts_shows_usuario": {"descricao": "Capturas das postagens de @expofeirapelotas fornecidas pelo usuário em 05/10/2026: Beto Borges (07/10), Ñanderekó Chamamé (10/10) e Os Andeiros (11/10), às 18h no Palco da Rua Coberta. Links individuais não fornecidos."},
-    "cards_usuario": {"descricao": "Imagens de horários de funcionamento, restaurantes e experiências fornecidas pelo usuário em 05/10/2026."},
-    "stories": {
-      "descricao": "Transcrição dos stories fornecida pelo usuário. Imagens não verificadas diretamente."
-    },
-    "jtr": {
-      "descricao": "Jornal Tradição Regional",
-      "url": "https://www.jornaltradicao.com.br/pelotas/rural/expofeira-pelotas-chega-a-sua-100a-edicao-com-muitas-atracoes/"
-    },
-    "tv": {
-      "descricao": "Agenda TV El Campo",
-      "url": "https://tvelcampo.com.br/agenda"
+    "instagram": {
+      "descricao": "Instagram 100ª Expofeira de Pelotas",
+      "url": "https://www.instagram.com/expofeirapelotas/"
     }
   },
   "tipos": {
@@ -161,14 +151,14 @@
       ["14:00", "Admissão da Raça Charolês", "julgamento", "Centro de Manejo"],
       ["14:00", "XXV Simpósio de Ovinocultura da Região Sul", "palestra", "Arena da Conferência"],
       ["14:00", "Oficina de Sensibilização, Criação Poética e Inspiração Criativa", "palestra", "Casa da Amizade"],
-      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 18h30. A imagem de funcionamento informa abertura às 13h30; a fonte jtr anteriormente utilizada indicava 14h. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês"],
       ["16:00", "Agro Comunica, Alimenta e Educa", "palestra", "Casa da Amizade"],
       ["18:00", "Equoterapia Apae - Xiru Antunes e Silvério Barcellos", "cultura", "Palco Tropa Entregue"],
       ["18:00", "Arte na Rural", "exposicao", "Salão Nobre"],
       ["19:00", "Leilão Brangus Piratini", "leilao", "Pavilhão Álvaro Azevedo"]
     ],
     "2026-10-06": [
-      ["08:00", "Julgamento de Admissão raça composta Montana", "julgamento", "Casa da Amizade", "stories", "Local mantido conforme a transcrição fornecida."],
+      ["08:00", "Julgamento de Admissão raça composta Montana", "julgamento", "Casa da Amizade"],
       ["08:00", "Seminário de Bovinos de Corte", "palestra", "Arena da Conferência"],
       ["08:00", "XVII Seminário de Turismo Rural", "palestra", "AEAPEL"],
       ["08:00", "V Seminário de Inspeção e Responsabilidade Técnica em Produtos de Origem Animal", "palestra", "VETESUL"],
@@ -178,10 +168,10 @@
       ["13:30", "Encontro de Confinamento e Recriadores da Metade Sul do RS", "palestra", "Arena da Conferência"],
       ["14:00", "Mostra UFPel", "exposicao", "Pavilhão Jorge Gertum"],
       ["14:00", "Admissão da Raça Charolês", "julgamento", "Centro de Manejo"],
-      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 18h30. A imagem de funcionamento informa abertura às 13h30; a fonte jtr anteriormente utilizada indicava 14h. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
-      ["18:00", "O Chamamé e o Rasguido Doble", "cultura", "Palco Tropa Entregue", "agenda_cultural"],
-      ["19:00", "Workshop de Carnes Angus", "gastronomia", null, "cards_usuario"],
-      ["19:00", "Leilão Montana", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."]
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês"],
+      ["18:00", "O Chamamé e o Rasguido Doble", "cultura", "Palco Tropa Entregue"],
+      ["19:00", "Workshop de Carnes Angus", "gastronomia", null],
+      ["19:00", "Leilão Montana", "leilao", "Associação Rural"]
     ],
     "2026-10-07": [
       ["08:00", "1º Fórum de Irrigação da Metade Sul do RS", "palestra", "Arena da Conferência"],
@@ -194,13 +184,13 @@
       ["14:00", "Mostra UFPel", "exposicao", "Pavilhão Jorge Gertum"],
       ["14:00", "Julgamento de Classificação da Raça Angus - Nacional", "julgamento", "Pista E"],
       ["14:00", "Julgamento de Admissão das raças Hereford e Braford", "julgamento", "Centro de Manejo"],
-      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 18h30. A imagem de funcionamento informa abertura às 13h30; a fonte jtr anteriormente utilizada indicava 14h. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
-      ["18:00", "Beto Borges", "cultura", "Palco Tropa Entregue", "agenda_cultural", "As postagens individuais do show citam Palco da Rua Coberta; a agenda cultural oficial indica Palco Tropa Entregue."],
-      ["20:00", "Crioulo de Pelotas", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."]
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês"],
+      ["18:00", "Beto Borges", "cultura", "Palco Tropa Entregue"],
+      ["20:00", "Crioulo de Pelotas", "leilao", "Associação Rural"]
     ],
     "2026-10-08": [
       ["08:00", "Entrada dos Animais da Raça Pônei", "manejo", "Pavilhão 8"],
-      ["08:00", "Julgamento de Admissão das raças Hereford de Braford", "julgamento", "Centro de Manejo", "stories", "Expressão 'Hereford de Braford' mantida conforme a transcrição."],
+      ["08:00", "Julgamento de Admissão das raças Hereford de Braford", "julgamento", "Centro de Manejo"],
       ["08:00", "Seminário Fibra Repro+", "palestra", "AEAPEL"],
       ["08:15", "Floresta do Futuro", "palestra", "Casa da Amizade"],
       ["09:00", "Juntos pelo Agro", "palestra", "Arena da Conferência"],
@@ -209,7 +199,7 @@
       ["12:30", "Término da Entrada dos Animais das Raças Ovinas", "manejo", "Pavilhão 8"],
       ["13:30", "Julgamento de Classificação das raças Hereford e Braford - rústicos", "julgamento", "Pista E"],
       ["13:30", "Ciranda Cultural Embrapa", "cultura", "Pavilhão Jorge Gertum"],
-      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 18h30. A imagem de funcionamento informa abertura às 13h30; a fonte jtr anteriormente utilizada indicava 14h. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês"],
       ["16:00", "Julgamento de Admissão do Concurso Leiteiro da Raça Jersey", "julgamento", "Pista D"],
       ["18:00", "Esgota do Concurso Leiteiro da Raça Jersey", "manejo", null],
       ["18:00", "Término da entrada da Raça Pônei", "manejo", "Pavilhão 8"],
@@ -237,7 +227,7 @@
       ["14:00", "Julgamento de Classificação da Raça Pônei", "julgamento", "Pista A"],
       ["14:00", "Julgamento de Admissão das Raças Ovinas", "julgamento", "Centro de Manejo"],
       ["14:00", "Arte na Rural", "exposicao", "Salão Nobre"],
-      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 18h30. A imagem de funcionamento informa abertura às 13h30; a fonte jtr anteriormente utilizada indicava 14h. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês"],
       ["15:00", "Momento com a Jersey", "demonstracao", "Em frente ao Núcleo Jersey"],
       ["16:00", "Conversas Foco Pecuária", "palestra", "Foco Pampeano"],
       ["18:00", "Última Ordenha do Concurso Leiteiro da Raça Jersey", "manejo", null],
@@ -257,17 +247,17 @@
       ["09:00", "Julgamento de Admissão da Raça Pônei", "julgamento", "Pista A"],
       ["10:00", "Admissão dos animais da raça Crioula", "julgamento", "Pavilhão 7"],
       ["10:00", "Viva RS", "cultura", "Pavilhão Jorge Gertum"],
-      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 19h, conforme imagem de funcionamento. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
+      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês"],
       ["11:30", "Cabanheiro do Futuro", "demonstracao", "Pista D"],
       ["14:00", "Julgamento Morfológico dos animais da raça Crioula", "julgamento", "Pista B"],
       ["14:00", "Grandes campeonatos da Raça Pônei", "julgamento", "Pista A"],
       ["14:00", "Arte na Rural", "exposicao", "Salão Nobre"],
-      ["15:00", "CTG Cantinhos da Tradição", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural", "Nome conforme a agenda cultural. Um comentário na postagem sugere outro nome (\"DTG Caminhos da...\", texto cortado na captura); não confirmado."],
-      ["16:00", "Jirón Gaucho + Entre Amigos", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural", "Segunda apresentação dos grupos; a primeira é em 09/10, às 19h15, no Palco Tropa Entregue."],
-      ["17:00", "CTG Raízes", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"],
-      ["18:00", "Ñanderekó Chamamé", "cultura", "Palco Tropa Entregue", "agenda_cultural", "As postagens individuais do show citam Palco da Rua Coberta; a agenda cultural oficial indica Palco Tropa Entregue."],
-      ["19:00", "Hereford da Fronteira", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."],
-      ["19:00", "Grupo Carqueja", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"]
+      ["15:00", "CTG Cantinhos da Tradição", "cultura", "Pavilhão Jorge Gertum"],
+      ["16:00", "Jirón Gaucho + Entre Amigos", "cultura", "Pavilhão Jorge Gertum", "instagram", "Segunda apresentação dos grupos; a primeira é em 09/10, às 19h15, no Palco Tropa Entregue."],
+      ["17:00", "CTG Raízes", "cultura", "Pavilhão Jorge Gertum"],
+      ["18:00", "Ñanderekó Chamamé", "cultura", "Palco Tropa Entregue"],
+      ["19:00", "Hereford da Fronteira", "leilao", "Associação Rural"],
+      ["19:00", "Grupo Carqueja", "cultura", "Pavilhão Jorge Gertum"]
     ],
     "2026-10-11": [
       ["07:00", "III Concurso de Assado Ovino e I Concurso de Costelão", "gastronomia", "Pista D"],
@@ -276,30 +266,30 @@
       ["09:30", "Provas Funcionais da Raça Pônei", "demonstracao", "Pista B"],
       ["10:00", "Viva RS", "cultura", "Pavilhão Jorge Gertum"],
       ["10:00", "Julgamento de Classificação de Animais Jovens da Raça Jersey", "julgamento", "Pista D"],
-      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 19h, conforme imagem de funcionamento. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
+      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês"],
       ["10:30", "Julgamento de Classificação da Raça Holandês", "julgamento", "Galpão 6"],
       ["12:00", "Entrega de Prêmios da Raça Holandês", "cerimonia", "Núcleo Holandês"],
       ["14:00", "Demonstração de esquila", "demonstracao", "Galpão 8"],
-      ["15:00", "Sicredi apresenta Tholl — 100 Anos Expofeira", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural", "Também noticiado pelo Jornal Tradição Regional (fonte jtr)."],
-      ["18:00", "Os Andeiros", "cultura", "Palco Tropa Entregue", "agenda_cultural", "As postagens individuais do show citam Palco da Rua Coberta; a agenda cultural oficial indica Palco Tropa Entregue."],
-      ["22:00", "Tri Baile", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"],
-      [null, "Leilão Só Angus", "leilao", "Associação Rural", "jtr", "Horário a confirmar: Jornal Tradição informa 18h; TV El Campo informa 19h. Consulte também a fonte tv."]
+      ["15:00", "Sicredi apresenta Tholl — 100 Anos Expofeira", "cultura", "Pavilhão Jorge Gertum"],
+      ["18:00", "Os Andeiros", "cultura", "Palco Tropa Entregue"],
+      ["22:00", "Tri Baile", "cultura", "Pavilhão Jorge Gertum"],
+      [null, "Leilão Só Angus", "leilao", "Associação Rural", "instagram", "Horário a confirmar: divulgado como 18h ou 19h."]
     ],
     "2026-10-12": [
       ["08:00", "Julgamento de Classificação da raça Brangus - Argola", "julgamento", "Pista E"],
       ["10:00", "Demonstrativo de pastoreio de rebanho com cães Border Collie", "demonstracao", "Pista D"],
       ["10:00", "Viva RS", "cultura", "Pavilhão Jorge Gertum"],
       ["10:00", "Concurso Puxador Mirim da Raça Jersey", "infantil", "Pista D"],
-      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 19h, conforme imagem de funcionamento. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
+      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês"],
       ["12:00", "Entrega de Prêmios e Almoço de Confraternização da Raça Jersey", "cerimonia", "Núcleo Jersey"],
       ["14:00", "Arte na Rural", "exposicao", "Salão Nobre"],
       ["14:00", "Demonstração de esquila Tally-Hi", "demonstracao", "Galpão de Ovinos 8"],
       ["14:00", "Demonstrativo de pastoreio de rebanho com cães Border Collie", "demonstracao", "Pista D"],
       ["15:00", "Desfile dos Campeões", "cerimonia", "Pistas A e B"],
-      ["15:00", "Ballet Sabrina de Freitas", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"],
-      ["16:00", "Leilão da raça Pônei", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."],
-      ["16:00", "Grupo de Invernada Escola Libório", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"],
-      ["18:00", "Sicredi apresenta Quarteto Coração de Potro", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural", "Também noticiado pelo Jornal Tradição Regional (fonte jtr)."]
+      ["15:00", "Ballet Sabrina de Freitas", "cultura", "Pavilhão Jorge Gertum"],
+      ["16:00", "Leilão da raça Pônei", "leilao", "Associação Rural"],
+      ["16:00", "Grupo de Invernada Escola Libório", "cultura", "Pavilhão Jorge Gertum"],
+      ["18:00", "Sicredi apresenta Quarteto Coração de Potro", "cultura", "Pavilhão Jorge Gertum"]
     ]
   }
 }

@@ -15,7 +15,8 @@ _(nenhuma)_
    - 09/10: "Julgamento de Admissão da Raça Jersey" às 13h e às 18h — possível duplicata.
    - Confirmar "Hereford de Braford" (08/10) e Montana na "Casa da Amizade" (06/10).
    - Workshop de Carnes Angus (06/10, 19h) está sem local.
-   - Leilão Só Angus (11/10) com horário a confirmar (18h ou 19h).
+   - Leilão Só Angus (11/10) com horário a confirmar (Jornal Tradição: 18h; TV El Campo: 19h).
+   - **Vieram só do Jornal Tradição Regional** e agora exibem Instagram como fonte — conferir no Instagram oficial: Leilão Montana (06/10), Crioulo de Pelotas (07/10), Hereford da Fronteira (10/10), Leilão Só Angus (11/10), Leilão da raça Pônei (12/10) e o local da Fazendinha ("Antigo pavilhão do Gado Holandês").
 3. **Compartilhamento:** adicionar `<meta name="description">`, tags Open Graph e favicon (o link circula no WhatsApp).
 4. **Stories:** testar o compartilhamento em celulares reais (Android Chrome e iPhone Safari) e dentro do navegador embutido do Instagram; ajustar a imagem se algo ficar sob as barras do app.
 5. Opcional: renomear `expofeira.html` para `index.html` (URL mais curta) — avisar o dono antes, muda o link publicado.
@@ -42,3 +43,4 @@ _(nenhuma)_
 | 2026-10-05 | Claude | Dia atual destacado como HOJE (botão e data); a aba aberta acompanha a virada do dia ao voltar a ficar visível, salvo se a pessoa escolheu outro dia. |
 | 2026-10-05 | Claude | Agenda cultural oficial: 8 eventos novos (06, 10, 11 e 12/10); Tholl e Quarteto renomeados ("Sicredi apresenta..."); acentos de Jirón Gaucho corrigidos; shows da Rua Coberta unificados sem duplicar. Total: 136 eventos. |
 | 2026-10-05 | Claude | Compartilhar evento nos stories (imagem 9:16); documentação completa para os agentes (`docs/ARQUITETURA.md`, `docs/HISTORICO.md`), README atualizado ao estado real, AGENTS.md com leitura obrigatória. |
+| 2026-10-05 | Claude | Fonte única "Instagram 100ª Expofeira de Pelotas"; observações internas removidas dos cards (ficaram 2, úteis ao visitante); `Co-Authored-By: Claude` removido de todos os commits. |

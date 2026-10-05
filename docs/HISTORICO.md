@@ -55,9 +55,18 @@ Problemas encontrados: a página mostrava só os 109 eventos embutidos no HTML (
 ### Documentação para os agentes (Claude)
 - Criados `docs/ARQUITETURA.md` (como o código funciona) e este `docs/HISTORICO.md`; README atualizado para o estado real; AGENTS.md aponta a leitura obrigatória.
 
+### Fonte única e limpeza das observações (Claude)
+- **Pedido do dono:** remover as notas internas dos cards (ex.: "a fonte jtr anteriormente utilizada indicava 14h…") e exibir **somente "Instagram 100ª Expofeira de Pelotas"** como fonte.
+- `fontes` passou a ter só `instagram` (padrão de todos os eventos). Observações reduzidas a 2, ambas úteis ao visitante: 2ª apresentação do Jirón Gaucho (10/10) e horário a confirmar do Leilão Só Angus (11/10).
+- Divergências e eventos a confirmar ficam no `TAREFAS.md` (uso interno), não nos cards.
+- **Atenção:** 5 leilões e o local da Fazendinha vieram originalmente do Jornal Tradição Regional e agora exibem Instagram como fonte — listados no `TAREFAS.md` para conferência.
+- As linhas `Co-Authored-By: Claude` foram removidas de todos os commits (histórico reescrito; exigiu push forçado). Commits futuros não devem ter atribuição a agentes de IA.
+
 ## Preferências do dono do projeto (João Santos)
 
 - Tudo em **português do Brasil**; datas no padrão **DD/MM/AAAA**.
 - Uso principal é no **celular** (público da feira, link circula no Instagram/WhatsApp).
 - O dono faz o **push** para o GitHub (que publica o site). Agentes fazem commit na `main` só quando ele pede.
-- Ao receber imagens/posts com programação: conferir **duplicatas** antes de adicionar, citar a fonte e registrar divergências.
+- Ao receber imagens/posts com programação: conferir **duplicatas** antes de adicionar; divergências vão para o `TAREFAS.md`.
+- Fonte exibida: **somente Instagram 100ª Expofeira de Pelotas**. Cards sem notas internas.
+- Commits **sem** `Co-Authored-By` ou atribuição a agentes de IA.

@@ -36,7 +36,9 @@ O dono do projeto alterna entre agentes conforme os limites de uso de cada um. P
 - O formato do JSON está descrito no `README.md`. Resumo: cada evento é `["HH:mm", "titulo", "tipo", "local", "fonte", "observacao"]`; horário/local desconhecido = `null`; `tipo` e `fonte` precisam existir em `tipos` e `fontes`.
 - O HTML valida o JSON ao carregar: um único registro inválido (horário fora de `HH:mm`, `tipo`/`fonte` inexistente) faz a página inteira mostrar erro. **Sempre valide antes de commitar.**
 - `funcionamento.areas` usa `[area, seg_a_sex, sab_dom_feriado]`, com períodos `["abre", "fecha"]`; `null` = não informado.
-- Nunca invente evento, horário ou local. Se a fonte for ambígua, registre a dúvida em `observacao` e cite a `fonte`.
+- Nunca invente evento, horário ou local. Dúvidas e divergências vão para o `TAREFAS.md`, **não** para `observacao`.
+- **Fonte única: Instagram 100ª Expofeira de Pelotas** (`instagram`, padrão). Não adicione outras fontes.
+- `observacao` aparece no card para o público: só informação útil ao visitante, nunca notas internas sobre a origem dos dados.
 - Preserve acentuação correta dos nomes (ex.: "Folklóricas", "Jirón").
 - 12/10/2026 é feriado (`feriados` no JSON).
 - Ao receber posts/imagens com programação: **procure duplicatas** (mesmo dia, título parecido, mesmo horário — o mesmo show pode ter nomes ou palcos diferentes em fontes diferentes) antes de adicionar.
@@ -68,6 +70,6 @@ node -e "const j=require('./eventos.json');for(const d in j.dias)for(const e of 
 1. **Ao começar:** leia este arquivo e o `TAREFAS.md`. Rode `git status` e `git log --oneline -5` para ver o que o agente anterior deixou.
 2. **Ao pegar uma tarefa:** mova-a para "Em andamento" no `TAREFAS.md` com seu nome (Claude / Codex / Antigravity).
 3. **Ao terminar ou ser interrompido:** atualize o `TAREFAS.md` — o que foi feito, o que falta, decisões tomadas — e adicione uma linha no "Registro".
-4. **Commits:** pequenos, em português, descrevendo o que mudou. Não faça push nem merge na `main` sem o dono pedir: a `main` é publicada automaticamente.
+4. **Commits:** pequenos, em português, descrevendo o que mudou. **Sem linhas `Co-Authored-By`** ou outra atribuição a agentes de IA (pedido do dono). Não faça push nem merge na `main` sem o dono pedir: a `main` é publicada automaticamente.
 5. Não apague nem reescreva trabalho de outro agente sem registrar o motivo no `TAREFAS.md`.
 6. **Faça commit cedo e com frequência.** O limite de uso pode acabar no meio da tarefa; alteração sem commit numa worktree é invisível para o próximo agente e pode ser perdida. Se trabalhar em worktree/branch separada, registre o caminho e a branch no `TAREFAS.md`.

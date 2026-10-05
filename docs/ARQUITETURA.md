@@ -110,20 +110,20 @@ Formato completo descrito no [`README.md`](../README.md#estrutura-do-json). Resu
 {
   "feriados": ["2026-10-12"],                 // usam horário de fim de semana
   "funcionamento": {
-    "fonte": "cards_usuario",
+    "fonte": "instagram",
     "campos": ["area", "seg_a_sex", "sab_dom_feriado"],
     "areas": [["Expositores", ["13:00","21:00"], ["10:00","21:00"]],
               ["Conferência Rural", ["08:00", null], null]]   // fecha null = não informado; período null = sem horário
   },
   "restaurantes": [{"nome": "...", "horarios": ["texto livre", "..."]}],
   "experiencias": [{"nome": "...", "data": "AAAA-MM-DD", "titulo_evento": "título exato em dias"}],
-  "fonte_informacoes": "cards_usuario",
+  "fonte_informacoes": "instagram",
   "timezone": "America/Sao_Paulo",
   "campos": ["hora", "titulo", "tipo", "local", "fonte", "observacao"],
-  "fonte_padrao": "stories",
-  "fontes": {"chave": {"descricao": "...", "url": "opcional"}},
+  "fonte_padrao": "instagram",
+  "fontes": {"instagram": {"descricao": "Instagram 100ª Expofeira de Pelotas", "url": "https://www.instagram.com/expofeirapelotas/"}},
   "tipos": {"chave": {"name": "...", "icon": "(não usado)", "color": "#...", "soft": "#..."}},
-  "dias": {"AAAA-MM-DD": [["HH:mm" | null, "título", "tipo", "local" | null, "fonte?", "observação?"]]}
+  "dias": {"AAAA-MM-DD": [["HH:mm" | null, "título", "tipo", "local" | null, "fonte?", "observação?"]]}   // fonte omitida = instagram
 }
 ```
 
@@ -143,20 +143,16 @@ node -e "const j=require('./eventos.json');for(const d in j.dias)for(const e of 
 
 ### Fontes cadastradas
 
-| Chave | Origem | Eventos |
-|---|---|---|
-| `stories` (padrão) | Transcrição dos stories oficiais | 109 |
-| `agenda_cultural` | Carrossel "Programação Cultural" do @expofeirapelotas | 13 |
-| `cards_usuario` | Artes de funcionamento, restaurantes e experiências | 9 |
-| `jtr` | Jornal Tradição Regional | 5 |
-| `tv` | Agenda TV El Campo (citada em observação) | 0 |
-| `posts_shows_usuario` | Posts individuais de shows (substituídos por `agenda_cultural`; mantida como registro) | 0 |
+Por decisão do dono, **a única fonte é `instagram`** ("Instagram 100ª Expofeira de Pelotas", padrão de todos os eventos). Não adicione outras fontes sem ele pedir.
+
+### Observações
+
+O 6º campo (`observacao`) **aparece no card para o público**. Use só para informação útil ao visitante (ex.: "Horário a confirmar", "Segunda apresentação do grupo"). Nada de notas internas ("conforme a transcrição", "encontrado na imprensa", divergência entre fontes) — isso vai para o `TAREFAS.md`. Para ter observação, o evento precisa do 5º campo preenchido (`"instagram"`).
 
 ### Receitas
 
 - **Adicionar evento:** inserir o array no dia certo de `dias`, em ordem de horário (a página ordena, mas manter ordenado facilita revisão). Antes, procurar duplicata pelo título/horário no mesmo dia — o mesmo show pode vir de fontes diferentes com nomes ligeiramente diferentes.
-- **Divergência entre fontes:** escolher uma, registrar a outra em `observacao`; horário desconhecido = `null`.
-- **Nova fonte:** adicionar em `fontes` (`descricao`, `url` opcional) e citar a chave no 5º campo.
+- **Divergência entre divulgações:** escolher a mais oficial e anotar a outra no `TAREFAS.md`; horário desconhecido = `null` (com observação "Horário a confirmar").
 - **Nova categoria:** adicionar em `tipos` (`name`, `color`, `soft`; `icon` não é exibido).
 - **Mudar horário de funcionamento:** editar `funcionamento.areas`.
 - **Novo feriado:** adicionar a data em `feriados`.
