@@ -10,7 +10,8 @@ _(nenhuma)_
 
 1. **Cores por categoria nos cards:** a etiqueta já mostra ícone e nome do `tipo`, mas o fundo dos cards ainda alterna azul/dourado (`nth-child(even)`). Usar `color`/`soft` de `tipos` e adicionar filtro por tipo.
 2. **Revisar dados do JSON:**
-   - Acentos perdidos em 09/10: "Danzas Folkloricas Argentinas Jiron Gaucho" / "Musica" → "Folklóricas", "Jirón", "Música".
+   - Palco dos shows de Beto Borges, Ñanderekó Chamamé e Os Andeiros: posts individuais dizem "Palco da Rua Coberta", agenda cultural diz "Palco Tropa Entregue" (adotado). Confirmar se são o mesmo palco.
+   - 10/10: confirmar o nome "CTG Cantinhos da Tradição" (comentário no Instagram sugere "DTG Caminhos da...").
    - 09/10: "Julgamento de Admissão da Raça Jersey" às 13h e às 18h — possível duplicata.
    - Confirmar "Hereford de Braford" (08/10) e Montana na "Casa da Amizade" (06/10).
    - Workshop de Carnes Angus (06/10, 19h) está sem local.
@@ -35,3 +36,4 @@ _(nenhuma)_
 | 2026-10-05 | Claude | Trouxe o trabalho do Codex para a `main`; `funcionamento` unificado no formato estruturado (lido pelo bloco do dia); painéis do topo ficaram só com restaurantes e experiências; fonte única `cards_usuario`; AGENTS.md atualizado (JSON é a fonte única). |
 | 2026-10-05 | Claude | Dias em grade (todos visíveis, sem rolagem lateral — não era possível chegar a 11 e 12/10); etiquetas de categoria sem emoji. |
 | 2026-10-05 | Claude | Dia atual destacado como HOJE (botão e data); a aba aberta acompanha a virada do dia ao voltar a ficar visível, salvo se a pessoa escolheu outro dia. |
+| 2026-10-05 | Claude | Agenda cultural oficial: 8 eventos novos (06, 10, 11 e 12/10); Tholl e Quarteto renomeados ("Sicredi apresenta..."); acentos de Jirón Gaucho corrigidos; shows da Rua Coberta unificados sem duplicar. Total: 136 eventos. |
