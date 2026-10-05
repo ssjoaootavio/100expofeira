@@ -94,6 +94,16 @@
   .date-pill b{font-weight:800}
   .date-pill .sep{margin:0 8px;font-weight:300}
 
+  /* horários de funcionamento */
+  .hours{margin-bottom:var(--s3)}
+  .hours h2{font:800 13px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--navy-600);margin-bottom:var(--s1)}
+  .hours h2 small{font-weight:400;letter-spacing:.04em;text-transform:none;color:var(--muted);margin-left:8px}
+  .hours ul{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s1)}
+  .hours li{border:1.5px solid #D5DAE6;border-radius:14px;padding:10px 14px}
+  .hours li span{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+  .hours li b{display:block;font-size:17px;font-weight:800;margin-top:2px}
+  .hours li.off b{font-size:14px;font-weight:600;color:var(--muted)}
+
   /* cards */
   .list{display:flex;flex-direction:column;gap:14px;list-style:none}
   .card{
@@ -117,6 +127,8 @@
     .sheet{padding-left:22px;padding-right:22px}
     .card{grid-template-columns:60px 1px 1fr;gap:12px;padding-right:var(--s2)}
     .card .time{font-size:15px}
+    .hours li{padding:10px 12px}
+    .hours li b{font-size:15px}
     .sign{display:none}
   }
 </style>
@@ -144,6 +156,7 @@
     <nav class="days" role="tablist" id="days"></nav>
     <input class="search" id="q" type="search" placeholder="Buscar evento, raça ou local…" aria-label="Buscar">
     <div class="date-pill" id="pill"></div>
+    <section class="hours" id="hours" aria-label="Horários de funcionamento"></section>
     <ul class="list" id="list"></ul>
     <footer>Programação sujeita a alterações</footer>
   </div>
@@ -153,6 +166,15 @@
 const PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
 const WEEK=['DOMINGO','SEGUNDA-FEIRA','TERÇA-FEIRA','QUARTA-FEIRA','QUINTA-FEIRA','SEXTA-FEIRA','SÁBADO'];
 const CONF=['Arena da Conferência','AEAPEL','Casa da Amizade','Vetesul'];
+// Funcionamento: [área, segunda a sexta, sábados/domingos/feriado]. Fonte: arte oficial de horários.
+// Manter em sincronia com "funcionamento" em eventos.json.
+const HOURS=[
+ ['Expositores','13h às 21h','10h às 21h'],
+ ['Fazendinha','13h30 às 18h30','10h às 19h'],
+ ['Praça de Alimentação Gertum e Food Hall','12h às 21h','10h às 21h'],
+ ['Conferência Rural','A partir das 8h',null]
+];
+const HOLIDAYS=[12]; // 12/10, Nossa Senhora Aparecida
 
 const DATA={
  5:[["8h","XXV Simpósio de Ovinocultura da Região Sul","Arena da Conferência"],["8h","Julgamento de Admissão da raça Brangus - Piratinizinho","Centro de Manejo"],["9h","Reunião Ordinária do Comitê de Gerenciamento das Bacias Hidrográficas Mirim e São Gonçalo","AEAPEL"],["10h","Julgamento de Admissão da Raça Angus - Nacional","Centro de Manejo"],["11h30","Abertura restaurante Choperia Cruz de Malta","Em frente à Pista B"],["13h30","Ciranda Cultural Embrapa","Pavilhão Jorge Gertum"],["14h","Mostra UFPel","Pavilhão Jorge Gertum"],["14h","Reunião COPAM","AEAPEL"],["14h","Admissão da Raça Charolês","Centro de Manejo"],["14h","XXV Simpósio de Ovinocultura da Região Sul","Arena da Conferência"],["14h","Oficina de Sensibilização, Criação Poética e Inspiração Criativa","Casa da Amizade"],["16h","Agro, Comunica, Alimenta e Educa","Casa da Amizade"],["18h","Equoterapia Apae - Xiru Antunes e Silvério Barcellos","Palco Tropa Entregue"],["18h","Arte na Rural","Salão Nobre"],["19h","Leilão Brangus Piratini","Pavilhão Álvaro Azevedo"]],
@@ -181,6 +203,12 @@ function render(){
   const q=document.getElementById('q').value.trim().toLowerCase();
   const wd=new Date(YEAR,9,cur).getDay();
   document.getElementById('pill').innerHTML=`<b>${String(cur).padStart(2,'0')} de outubro</b><span class="sep">|</span>${WEEK[wd]}`;
+  const holiday=HOLIDAYS.includes(cur), weekend=wd===0||wd===6;
+  const label=holiday?'Feriado':weekend?'Fim de semana':'Segunda a sexta-feira';
+  document.getElementById('hours').innerHTML=`<h2>Funcionamento<small>${label}</small></h2><ul>${HOURS.map(([n,wk,we])=>{
+    const h=holiday||weekend?we:wk;
+    return `<li${h?'':' class="off"'}><span>${n}</span><b>${h||'Sem horário informado'}</b></li>`;
+  }).join('')}</ul>`;
   const items=DATA[cur].map((e,i)=>({t:e[0],n:e[1],l:e[2],i}))
     .sort((a,b)=>mins(a.t)-mins(b.t)||a.i-b.i)
     .filter(e=>!q||(e.n+' '+e.l).toLowerCase().includes(q));

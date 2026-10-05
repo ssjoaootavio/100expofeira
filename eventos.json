@@ -14,10 +14,25 @@
       "descricao": "Jornal Tradição Regional",
       "url": "https://www.jornaltradicao.com.br/pelotas/rural/expofeira-pelotas-chega-a-sua-100a-edicao-com-muitas-atracoes/"
     },
+    "horarios": {
+      "descricao": "Arte oficial com os horários de funcionamento, fornecida pelo usuário em 2026-10-05."
+    },
     "tv": {
       "descricao": "Agenda TV El Campo",
       "url": "https://tvelcampo.com.br/agenda"
     }
+  },
+  "feriados": ["2026-10-12"],
+  "funcionamento": {
+    "fonte": "horarios",
+    "campos": ["area", "seg_a_sex", "sab_dom_feriado"],
+    "areas": [
+      ["Expositores", ["13:00", "21:00"], ["10:00", "21:00"]],
+      ["Fazendinha", ["13:30", "18:30"], ["10:00", "19:00"]],
+      ["Praça de Alimentação Gertum e Food Hall", ["12:00", "21:00"], ["10:00", "21:00"]],
+      ["Conferência Rural", ["08:00", null], null]
+    ],
+    "observacao": "Conferência Rural: a arte informa apenas segunda a sexta-feira, a partir das 8h. Horário de término null = não informado; período null = sem horário informado."
   },
   "tipos": {
     "palestra": {
@@ -100,7 +115,7 @@
       ["14:00", "Admissão da Raça Charolês", "julgamento", "Centro de Manejo"],
       ["14:00", "XXV Simpósio de Ovinocultura da Região Sul", "palestra", "Arena da Conferência"],
       ["14:00", "Oficina de Sensibilização, Criação Poética e Inspiração Criativa", "palestra", "Casa da Amizade"],
-      ["14:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Visitação a partir deste horário. A atração é gratuita; o ingresso do parque segue a cobrança do dia."],
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Funciona das 13h30 às 18h30 (seg. a sex.) e das 10h às 19h (sáb., dom. e feriado), conforme arte oficial de horários. Atração gratuita; o ingresso do parque segue a cobrança do dia."],
       ["16:00", "Agro Comunica, Alimenta e Educa", "palestra", "Casa da Amizade"],
       ["18:00", "Equoterapia Apae - Xiru Antunes e Silvério Barcellos", "cultura", "Palco Tropa Entregue"],
       ["18:00", "Arte na Rural", "exposicao", "Salão Nobre"],
@@ -117,7 +132,7 @@
       ["13:30", "Encontro de Confinamento e Recriadores da Metade Sul do RS", "palestra", "Arena da Conferência"],
       ["14:00", "Mostra UFPel", "exposicao", "Pavilhão Jorge Gertum"],
       ["14:00", "Admissão da Raça Charolês", "julgamento", "Centro de Manejo"],
-      ["14:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Visitação a partir deste horário. A atração é gratuita; o ingresso do parque segue a cobrança do dia."],
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Funciona das 13h30 às 18h30 (seg. a sex.) e das 10h às 19h (sáb., dom. e feriado), conforme arte oficial de horários. Atração gratuita; o ingresso do parque segue a cobrança do dia."],
       ["19:00", "Leilão Montana", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."]
     ],
     "2026-10-07": [
@@ -131,7 +146,7 @@
       ["14:00", "Mostra UFPel", "exposicao", "Pavilhão Jorge Gertum"],
       ["14:00", "Julgamento de Classificação da Raça Angus - Nacional", "julgamento", "Pista E"],
       ["14:00", "Julgamento de Admissão das raças Hereford e Braford", "julgamento", "Centro de Manejo"],
-      ["14:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Visitação a partir deste horário. A atração é gratuita; o ingresso do parque segue a cobrança do dia."],
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Funciona das 13h30 às 18h30 (seg. a sex.) e das 10h às 19h (sáb., dom. e feriado), conforme arte oficial de horários. Atração gratuita; o ingresso do parque segue a cobrança do dia."],
       ["20:00", "Crioulo de Pelotas", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."]
     ],
     "2026-10-08": [
@@ -145,7 +160,7 @@
       ["12:30", "Término da Entrada dos Animais das Raças Ovinas", "manejo", "Pavilhão 8"],
       ["13:30", "Julgamento de Classificação das raças Hereford e Braford - rústicos", "julgamento", "Pista E"],
       ["13:30", "Ciranda Cultural Embrapa", "cultura", "Pavilhão Jorge Gertum"],
-      ["14:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Visitação a partir deste horário. A atração é gratuita; o ingresso do parque segue a cobrança do dia."],
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Funciona das 13h30 às 18h30 (seg. a sex.) e das 10h às 19h (sáb., dom. e feriado), conforme arte oficial de horários. Atração gratuita; o ingresso do parque segue a cobrança do dia."],
       ["16:00", "Julgamento de Admissão do Concurso Leiteiro da Raça Jersey", "julgamento", "Pista D"],
       ["18:00", "Esgota do Concurso Leiteiro da Raça Jersey", "manejo", null],
       ["18:00", "Término da entrada da Raça Pônei", "manejo", "Pavilhão 8"],
@@ -173,7 +188,7 @@
       ["14:00", "Julgamento de Classificação da Raça Pônei", "julgamento", "Pista A"],
       ["14:00", "Julgamento de Admissão das Raças Ovinas", "julgamento", "Centro de Manejo"],
       ["14:00", "Arte na Rural", "exposicao", "Salão Nobre"],
-      ["14:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Visitação a partir deste horário. A atração é gratuita; o ingresso do parque segue a cobrança do dia."],
+      ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Funciona das 13h30 às 18h30 (seg. a sex.) e das 10h às 19h (sáb., dom. e feriado), conforme arte oficial de horários. Atração gratuita; o ingresso do parque segue a cobrança do dia."],
       ["15:00", "Momento com a Jersey", "demonstracao", "Em frente ao Núcleo Jersey"],
       ["16:00", "Conversas Foco Pecuária", "palestra", "Foco Pampeano"],
       ["18:00", "Última Ordenha do Concurso Leiteiro da Raça Jersey", "manejo", null],
@@ -193,7 +208,7 @@
       ["09:00", "Julgamento de Admissão da Raça Pônei", "julgamento", "Pista A"],
       ["10:00", "Admissão dos animais da raça Crioula", "julgamento", "Pavilhão 7"],
       ["10:00", "Viva RS", "cultura", "Pavilhão Jorge Gertum"],
-      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Visitação a partir deste horário. A atração é gratuita; o ingresso do parque segue a cobrança do dia."],
+      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Funciona das 13h30 às 18h30 (seg. a sex.) e das 10h às 19h (sáb., dom. e feriado), conforme arte oficial de horários. Atração gratuita; o ingresso do parque segue a cobrança do dia."],
       ["11:30", "Cabanheiro do Futuro", "demonstracao", "Pista D"],
       ["14:00", "Julgamento Morfológico dos animais da raça Crioula", "julgamento", "Pista B"],
       ["14:00", "Grandes campeonatos da Raça Pônei", "julgamento", "Pista A"],
@@ -207,7 +222,7 @@
       ["09:30", "Provas Funcionais da Raça Pônei", "demonstracao", "Pista B"],
       ["10:00", "Viva RS", "cultura", "Pavilhão Jorge Gertum"],
       ["10:00", "Julgamento de Classificação de Animais Jovens da Raça Jersey", "julgamento", "Pista D"],
-      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Visitação a partir deste horário. A atração é gratuita; o ingresso do parque segue a cobrança do dia."],
+      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Funciona das 13h30 às 18h30 (seg. a sex.) e das 10h às 19h (sáb., dom. e feriado), conforme arte oficial de horários. Atração gratuita; o ingresso do parque segue a cobrança do dia."],
       ["10:30", "Julgamento de Classificação da Raça Holandês", "julgamento", "Galpão 6"],
       ["12:00", "Entrega de Prêmios da Raça Holandês", "cerimonia", "Núcleo Holandês"],
       ["14:00", "Demonstração de esquila", "demonstracao", "Galpão 8"],
@@ -219,7 +234,7 @@
       ["10:00", "Demonstrativo de pastoreio de rebanho com cães Border Collie", "demonstracao", "Pista D"],
       ["10:00", "Viva RS", "cultura", "Pavilhão Jorge Gertum"],
       ["10:00", "Concurso Puxador Mirim da Raça Jersey", "infantil", "Pista D"],
-      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Visitação a partir deste horário. A atração é gratuita; o ingresso do parque segue a cobrança do dia."],
+      ["10:00", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "jtr", "Funciona das 13h30 às 18h30 (seg. a sex.) e das 10h às 19h (sáb., dom. e feriado), conforme arte oficial de horários. Atração gratuita; o ingresso do parque segue a cobrança do dia."],
       ["12:00", "Entrega de Prêmios e Almoço de Confraternização da Raça Jersey", "cerimonia", "Núcleo Jersey"],
       ["14:00", "Arte na Rural", "exposicao", "Salão Nobre"],
       ["14:00", "Demonstração de esquila Tally-Hi", "demonstracao", "Galpão de Ovinos 8"],

@@ -28,6 +28,7 @@ A versão inicial da agenda inclui:
 - Detalhes dos eventos com horário, local e fonte.
 - Layout adaptado para computadores e celulares.
 - Indicação de horários ainda não confirmados.
+- Horários de funcionamento do dia (expositores, Fazendinha, praça de alimentação e Conferência Rural).
 
 ## Status do projeto
 
@@ -57,6 +58,8 @@ A versão inicial não exige framework, banco de dados ou etapa de compilação.
 | `agenda-expofeira.html` | HTML de referência com a identidade visual do evento |
 | `eventos.json` | Base de programação para integração com a agenda |
 | `README.md` | Documentação do projeto |
+| `AGENTS.md` | Instruções compartilhadas para agentes de IA (Claude, Codex, Antigravity) |
+| `TAREFAS.md` | Quadro de tarefas e passagem de bastão entre agentes |
 
 Esta tabela descreve os arquivos previstos para o projeto. A presença de cada arquivo depende de seu envio ao repositório.
 
@@ -100,6 +103,8 @@ O arquivo `eventos.json` contém:
 | `campos` | Define a ordem dos valores de cada registro |
 | `fonte_padrao` | Fonte utilizada quando o registro não informa outra |
 | `fontes` | Descrições e links das fontes |
+| `feriados` | Datas tratadas como feriado (horário de fim de semana) |
+| `funcionamento` | Horários de funcionamento por área: `[area, seg_a_sex, sab_dom_feriado]`, cada período `["abre", "fecha"]` |
 | `tipos` | Categorias, ícones e cores |
 | `dias` | Eventos agrupados por data |
 
