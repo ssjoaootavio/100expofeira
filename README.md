@@ -28,17 +28,17 @@ A versão inicial da agenda inclui:
 - Detalhes dos eventos com horário, local e fonte.
 - Layout adaptado para computadores e celulares.
 - Indicação de horários ainda não confirmados.
-- Horários de funcionamento do dia (expositores, Fazendinha, praça de alimentação e Conferência Rural).
+- Horários de funcionamento do dia selecionado (expositores, Fazendinha, praça de alimentação e Conferência Rural), distinguindo dias úteis de fins de semana e feriado.
 
 ## Status do projeto
 
 O projeto está em evolução:
 
-- A versão inicial utiliza eventos definidos diretamente no HTML.
-- O arquivo `eventos.json` foi preparado para centralizar a programação.
-- A integração do HTML com o JSON e a aplicação da identidade visual estão em andamento.
+- A agenda carrega os eventos diretamente de `eventos.json`.
+- O arquivo `eventos.json` centraliza a programação, as categorias e as fontes.
+- A integração inclui estados de carregamento, erro e busca sem resultados, além de fontes e observações.
 
-Ter o JSON no repositório não faz o HTML utilizá-lo automaticamente. A página precisa implementar seu carregamento.
+Alterações no JSON são exibidas quando a página é carregada novamente.
 
 ## Tecnologias
 
@@ -68,8 +68,8 @@ Esta tabela descreve os arquivos previstos para o projeto. A presença de cada a
 A base preparada reúne:
 
 - **109 registros** da transcrição dos stories fornecida para o projeto.
-- **15 registros complementares** obtidos em outras fontes.
-- **124 registros no total**, incluindo ocorrências diárias de atividades recorrentes.
+- **19 registros complementares** obtidos em outras fontes e nas imagens fornecidas.
+- **128 registros no total**, incluindo ocorrências diárias de atividades recorrentes.
 
 A programação completa ainda não foi verificada. A quantidade de registros pode mudar após revisões.
 
@@ -104,7 +104,10 @@ O arquivo `eventos.json` contém:
 | `fonte_padrao` | Fonte utilizada quando o registro não informa outra |
 | `fontes` | Descrições e links das fontes |
 | `feriados` | Datas tratadas como feriado (horário de fim de semana) |
-| `funcionamento` | Horários de funcionamento por área: `[area, seg_a_sex, sab_dom_feriado]`, cada período `["abre", "fecha"]` |
+| `funcionamento` | Horários por área: `areas` = `[area, seg_a_sex, sab_dom_feriado]`, cada período `["abre", "fecha"]` |
+| `restaurantes` | Restaurantes e seus horários (texto) |
+| `experiencias` | Experiências que apontam para eventos de `dias` por data e título |
+| `fonte_informacoes` | Fonte de restaurantes e experiências |
 | `tipos` | Categorias, ícones e cores |
 | `dias` | Eventos agrupados por data |
 
@@ -148,7 +151,7 @@ Regras:
 7. Faça o commit na branch usada pelo GitHub Pages.
 8. Aguarde a publicação e confira a alteração no site.
 
-Após a integração, o HTML deverá carregar o arquivo por caminho relativo:
+O HTML carrega o arquivo por caminho relativo:
 
     fetch("./eventos.json")
 
@@ -206,9 +209,9 @@ A programação pode sofrer alterações. Consulte os canais oficiais antes de s
 
 ## Próximas melhorias
 
-- [ ] Integrar o HTML ao `eventos.json`.
+- [x] Integrar o HTML ao `eventos.json`.
 - [ ] Aplicar e revisar a identidade visual do evento.
-- [ ] Exibir estados de carregamento, erro e busca sem resultados.
+- [x] Exibir estados de carregamento, erro e busca sem resultados.
 - [ ] Verificar a programação completa.
 - [ ] Permitir salvar eventos em uma agenda pessoal.
 - [ ] Adicionar exportação para calendário.
@@ -219,3 +222,9 @@ A programação pode sofrer alterações. Consulte os canais oficiais antes de s
 **João Santos**
 
 [GitHub — ssjoaootavio](https://github.com/ssjoaootavio)
+
+## Informações para visita
+
+O bloco de funcionamento é montado a partir de `funcionamento` e `feriados`, de acordo com o dia selecionado. As seções de restaurantes e experiências são carregadas dos campos `restaurantes` e `experiencias` do JSON, com a fonte em `fonte_informacoes`. As experiências referenciam eventos existentes por data e título; horários e locais vêm da programação, evitando duplicação.
+
+As imagens fornecidas em 05/10/2026 acrescentam o Workshop de Carnes Angus (06/10, 19h, local não informado). O jantar e o concurso de assado já constavam na agenda. A abertura da Fazendinha nos dias úteis foi atualizada para 13h30 conforme a imagem, preservando em observação a divergência com a fonte anterior (14h).

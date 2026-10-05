@@ -15,19 +15,20 @@ O dono do projeto alterna entre agentes conforme os limites de uso de cada um. P
 
 | Arquivo | Papel |
 |---|---|
-| `expofeira.html` | Página publicada. Hoje os eventos (`DATA`) e os horários de funcionamento (`HOURS`) estão **embutidos no HTML**. |
-| `eventos.json` | Base de dados mais completa (124 eventos, categorias, fontes, funcionamento). **Ainda não é carregada pelo HTML.** |
+| `expofeira.html` | Página publicada. Carrega tudo de `eventos.json` via `fetch` — **não há dados embutidos no HTML**. |
+| `eventos.json` | **Fonte única dos dados**: eventos por dia, categorias, fontes, feriados, funcionamento, restaurantes e experiências. |
 | `README.md` | Documentação para pessoas, inclusive o formato do JSON. |
 | `TAREFAS.md` | Quadro de tarefas e registro de passagem de bastão entre agentes. |
 
 ## Regras de dados
 
-- Enquanto o HTML não carregar o JSON, **toda alteração de programação ou horário precisa ser feita nos dois lugares** (`DATA`/`HOURS` no HTML e `eventos.json`).
+- Toda alteração de programação ou horário é feita **só no `eventos.json`**. Não reintroduza dados no HTML.
 - O formato do JSON está descrito no `README.md`. Resumo: cada evento é `["HH:mm", "titulo", "tipo", "local", "fonte", "observacao"]`; horário/local desconhecido = `null`; `tipo` e `fonte` precisam existir em `tipos` e `fontes`.
-- No HTML, os horários dos eventos usam o formato curto `"8h"`, `"13h30"`.
+- O HTML valida o JSON ao carregar: um único registro inválido (horário fora de `HH:mm`, `tipo`/`fonte` inexistente) faz a página inteira mostrar erro. **Sempre valide antes de commitar.**
+- `funcionamento.areas` usa `[area, seg_a_sex, sab_dom_feriado]`, com períodos `["abre", "fecha"]`; `null` = não informado.
 - Nunca invente evento, horário ou local. Se a fonte for ambígua, registre a dúvida em `observacao` e cite a `fonte`.
 - Preserve acentuação correta dos nomes (ex.: "Folklóricas", "Jirón").
-- 12/10/2026 é feriado (`HOLIDAYS` no HTML, `feriados` no JSON).
+- 12/10/2026 é feriado (`feriados` no JSON).
 
 ## Regras de código
 
@@ -42,8 +43,8 @@ O dono do projeto alterna entre agentes conforme os limites de uso de cada um. P
 node -e "JSON.parse(require('fs').readFileSync('eventos.json','utf8')); console.log('JSON ok')"
 ```
 
-- Abra `expofeira.html` no navegador, troque entre os dias (inclusive 10, 11 e 12/10) e teste a busca.
-- Para testar `fetch('./eventos.json')`, use um servidor local (`npx serve .` ou `python -m http.server`); via `file://` o fetch falha.
+- Rode `python -m http.server 8765`, abra http://localhost:8765/expofeira.html, troque entre os dias (inclusive 10, 11 e 12/10) e teste a busca.
+- Abrir o HTML direto do disco (`file://`) não funciona: o `fetch` do JSON falha e a página mostra erro.
 
 ## Protocolo de passagem de bastão
 
@@ -52,3 +53,4 @@ node -e "JSON.parse(require('fs').readFileSync('eventos.json','utf8')); console.
 3. **Ao terminar ou ser interrompido:** atualize o `TAREFAS.md` — o que foi feito, o que falta, decisões tomadas — e adicione uma linha no "Registro".
 4. **Commits:** pequenos, em português, descrevendo o que mudou. Não faça push nem merge na `main` sem o dono pedir: a `main` é publicada automaticamente.
 5. Não apague nem reescreva trabalho de outro agente sem registrar o motivo no `TAREFAS.md`.
+6. **Faça commit cedo e com frequência.** O limite de uso pode acabar no meio da tarefa; alteração sem commit numa worktree é invisível para o próximo agente e pode ser perdida. Se trabalhar em worktree/branch separada, registre o caminho e a branch no `TAREFAS.md`.

@@ -80,7 +80,7 @@
     border-radius:var(--radius-pill);padding:8px 16px;font:700 14px var(--font);cursor:pointer;transition:.15s;
   }
   .day small{font-weight:400;margin-left:4px}
-  .day[aria-selected="true"]{background:var(--navy-600);color:var(--white)}
+  .day[aria-pressed="true"]{background:var(--navy-600);color:var(--white)}
   .day:focus-visible,.search:focus-visible{outline:3px solid var(--gold-400);outline-offset:2px}
 
   .search{width:100%;border:1.5px solid #D5DAE6;border-radius:var(--radius-pill);padding:12px 18px;font:400 15px var(--font);color:var(--ink);margin-bottom:var(--s3)}
@@ -93,16 +93,6 @@
   }
   .date-pill b{font-weight:800}
   .date-pill .sep{margin:0 8px;font-weight:300}
-
-  /* horários de funcionamento */
-  .hours{margin-bottom:var(--s3)}
-  .hours h2{font:800 13px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--navy-600);margin-bottom:var(--s1)}
-  .hours h2 small{font-weight:400;letter-spacing:.04em;text-transform:none;color:var(--muted);margin-left:8px}
-  .hours ul{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s1)}
-  .hours li{border:1.5px solid #D5DAE6;border-radius:14px;padding:10px 14px}
-  .hours li span{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3}
-  .hours li b{display:block;font-size:17px;font-weight:800;margin-top:2px}
-  .hours li.off b{font-size:14px;font-weight:600;color:var(--muted)}
 
   /* cards */
   .list{display:flex;flex-direction:column;gap:14px;list-style:none}
@@ -120,6 +110,28 @@
   .tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid currentColor;border-radius:var(--radius-pill);padding:1px 7px;margin-left:6px;vertical-align:2px;opacity:.85}
   .empty{text-align:center;color:var(--muted);padding:var(--s6) 0}
 
+  .note,.source{font-size:12px;line-height:1.5;margin-top:8px}
+  .source a{color:inherit;overflow-wrap:anywhere}
+  .source summary{cursor:pointer}
+  .pending-heading h2{font-size:17px;margin-top:16px}
+  .visitor-info{margin-bottom:28px}
+  .visitor-info>details{border:1px solid #D5DAE6;border-radius:16px;margin-bottom:12px;overflow:hidden}
+  .visitor-info>details>summary{padding:16px;background:#fff5e3;font-weight:800;cursor:pointer}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;padding:16px;list-style:none}
+  .info-card{padding:16px;border-radius:12px;background:#f4f6fa;min-width:0}
+  .info-card h3{font-size:16px;margin-bottom:10px}
+  .info-card p{font-size:13px;line-height:1.6;margin-top:6px}
+  .info-source{padding:0 16px 16px;font-size:12px;line-height:1.5;color:var(--muted)}
+
+  /* horários de funcionamento do dia */
+  .hours{margin-bottom:var(--s3)}
+  .hours h2{font:800 13px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--navy-600);margin-bottom:var(--s1)}
+  .hours h2 small{font-weight:400;letter-spacing:.04em;text-transform:none;color:var(--muted);margin-left:8px}
+  .hours ul{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s1)}
+  .hours li{border:1.5px solid #D5DAE6;border-radius:14px;padding:10px 14px}
+  .hours li span{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+  .hours li b{display:block;font-size:17px;font-weight:800;margin-top:2px}
+  .hours li.off b{font-size:14px;font-weight:600;color:var(--muted)}
   footer{border-top:1px solid #E3E7EF;margin-top:var(--s6);padding-top:var(--s3);text-align:center;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
 
   @media (max-width:520px){
@@ -153,11 +165,12 @@
 
 <main class="sheet">
   <div class="wrap">
-    <nav class="days" role="tablist" id="days"></nav>
+    <section id="visitor-info" class="visitor-info" aria-label="Informações para sua visita" hidden></section>
+    <nav class="days" aria-label="Dias da programação" id="days"></nav>
     <input class="search" id="q" type="search" placeholder="Buscar evento, raça ou local…" aria-label="Buscar">
     <div class="date-pill" id="pill"></div>
-    <section class="hours" id="hours" aria-label="Horários de funcionamento"></section>
-    <ul class="list" id="list"></ul>
+    <section class="hours" id="hours" aria-label="Horários de funcionamento" hidden></section>
+    <ul class="list" id="list" aria-live="polite"></ul>
     <footer>Programação sujeita a alterações</footer>
   </div>
 </main>
@@ -165,62 +178,139 @@
 <script>
 const PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
 const WEEK=['DOMINGO','SEGUNDA-FEIRA','TERÇA-FEIRA','QUARTA-FEIRA','QUINTA-FEIRA','SEXTA-FEIRA','SÁBADO'];
-const CONF=['Arena da Conferência','AEAPEL','Casa da Amizade','Vetesul'];
-// Funcionamento: [área, segunda a sexta, sábados/domingos/feriado]. Fonte: arte oficial de horários.
-// Manter em sincronia com "funcionamento" em eventos.json.
-const HOURS=[
- ['Expositores','13h às 21h','10h às 21h'],
- ['Fazendinha','13h30 às 18h30','10h às 19h'],
- ['Praça de Alimentação Gertum e Food Hall','12h às 21h','10h às 21h'],
- ['Conferência Rural','A partir das 8h',null]
-];
-const HOLIDAYS=[12]; // 12/10, Nossa Senhora Aparecida
-
-const DATA={
- 5:[["8h","XXV Simpósio de Ovinocultura da Região Sul","Arena da Conferência"],["8h","Julgamento de Admissão da raça Brangus - Piratinizinho","Centro de Manejo"],["9h","Reunião Ordinária do Comitê de Gerenciamento das Bacias Hidrográficas Mirim e São Gonçalo","AEAPEL"],["10h","Julgamento de Admissão da Raça Angus - Nacional","Centro de Manejo"],["11h30","Abertura restaurante Choperia Cruz de Malta","Em frente à Pista B"],["13h30","Ciranda Cultural Embrapa","Pavilhão Jorge Gertum"],["14h","Mostra UFPel","Pavilhão Jorge Gertum"],["14h","Reunião COPAM","AEAPEL"],["14h","Admissão da Raça Charolês","Centro de Manejo"],["14h","XXV Simpósio de Ovinocultura da Região Sul","Arena da Conferência"],["14h","Oficina de Sensibilização, Criação Poética e Inspiração Criativa","Casa da Amizade"],["16h","Agro, Comunica, Alimenta e Educa","Casa da Amizade"],["18h","Equoterapia Apae - Xiru Antunes e Silvério Barcellos","Palco Tropa Entregue"],["18h","Arte na Rural","Salão Nobre"],["19h","Leilão Brangus Piratini","Pavilhão Álvaro Azevedo"]],
- 6:[["8h","Julgamento de Admissão raça composta Montana","Casa da Amizade"],["8h","Seminário de Bovinos de Corte","Arena da Conferência"],["8h","XVII Seminário de Turismo Rural","AEAPEL"],["8h","V Seminário de Inspeção e Responsabilidade Técnica em Produtos de Origem Animal","Vetesul"],["9h","Julgamento de Admissão da raça Angus - Nacional",""],["12h","Abertura parrilla El Indomable","Núcleo Sudeste de Angus"],["13h30","Ciranda Cultural Embrapa","Pavilhão Jorge Gertum"],["13h30","Encontro de Confinamento e Recriadores da Metade Sul do RS","Arena da Conferência"],["14h","Mostra UFPel","Pavilhão Jorge Gertum"],["14h","Admissão da Raça Charolês","Centro de Manejo"]],
- 7:[["8h","1º Fórum de Irrigação da Metade Sul do RS","Arena da Conferência"],["8h","V Seminário Nutrirumen","AEAPEL"],["8h30","Julgamento de Classificação da Raça Angus - Nacional","Pista E"],["13h","Abertura da Agricultura Familiar","Pavilhão da Agricultura Familiar"],["13h30","Ciranda Cultural Embrapa","Pavilhão Jorge Gertum"],["13h30","PRODES em Debate: Monitoramento ambiental e os novos desafios no Agronegócio","Arena da Conferência"],["14h","Admissão da Raça Charolês","Centro de Manejo"],["14h","Mostra UFPel","Pavilhão Jorge Gertum"],["14h","Julgamento de Classificação da Raça Angus - Nacional","Pista E"],["14h","Julgamento de Admissão das raças Hereford e Braford","Centro de Manejo"]],
- 8:[["8h","Entrada dos Animais da Raça Pônei","Pavilhão 8"],["8h","Julgamento de Admissão das raças Hereford e Braford","Centro de Manejo"],["8h","Seminário Fibra Repro+","AEAPEL"],["8h15","Floresta do Futuro","Casa da Amizade"],["9h","Juntos pelo Agro","Arena da Conferência"],["9h","Minha Vida, Minhas Escolhas: Carreiras e Propósitos","Pavilhão Jorge Gertum"],["9h","Seminário de Bovinos de Leite","Vetesul"],["12h30","Término da Entrada dos Animais das Raças Ovinas","Pavilhão 8"],["13h30","Julgamento de Classificação das raças Hereford e Braford - rústicos","Pista E"],["13h30","Ciranda Cultural Embrapa","Pavilhão Jorge Gertum"],["16h","Julgamento de Admissão do Concurso Leiteiro da Raça Jersey","Pista D"],["18h","Esgota do Concurso Leiteiro da Raça Jersey",""],["18h","Término da entrada da Raça Pônei","Pavilhão 8"],["18h","Folklore do Prata 01 (Fabiano Bacchieri, Rodrigo Jacques e Guilherme Collares)","Palco Tropa Entregue"],["19h","Crédito Rural: O Desafio do Produtor Gaúcho","Casa da Amizade"],["19h","Mérito Rural","Restaurante e Salão Nobre"],["19h","Projeto Taureando","Pavilhão Jorge Gertum"],["19h","Leilão Genética em Dose Dupla","Pavilhão Álvaro Azevedo"]],
- 9:[["6h","Primeira Ordenha do Concurso Leiteiro da Raça Jersey",""],["8h","Julgamento de Admissão da Raça Holandês","Centro de Manejo"],["8h","Julgamento de Admissão raça Devon","Centro de Manejo"],["9h","Fórum de Aftosa","Arena da Conferência"],["9h","Novos Caminhos da Pecuária do Sul: Produção, Ambientes e Novos Mercados","AEAPEL"],["10h","Julgamento de Classificação de animais da raça Hereford Braford de argola","Centro de Manejo"],["12h","Término da entrada de animais da Raça Jersey","Centro de Manejo"],["13h","Julgamento de Admissão da Raça Pônei","Pista A"],["13h","Julgamento de Admissão da Raça Jersey","Centro de Manejo"],["13h30","Ciranda Cultural Embrapa","Pavilhão Jorge Gertum"],["14h","Mostra UFPel","Pavilhão Jorge Gertum"],["14h","Territórios, Conexões e Inovação","Arena da Conferência"],["14h","Comissão de Mulheres do Agro convida: Além dos limites, mulheres que lideram e transformam","Casa da Amizade"],["14h","Julgamento de Classificação raça Devon","Pista E"],["14h","Julgamento de Classificação da Raça Pônei","Pista A"],["14h","Julgamento de Admissão das Raças Ovinas","Centro de Manejo"],["14h","Arte na Rural","Salão Nobre"],["15h","Momento com a Jersey","Em frente ao Núcleo Jersey"],["16h","Conversas Foco Pecuária","Foco Pampeano"],["18h","Última Ordenha do Concurso Leiteiro da Raça Jersey",""],["18h","Término da entrada dos animais da raça Crioula","NSCCC"],["18h","Julgamento de Admissão da Raça Jersey","Centro de Manejo"],["18h","Folklore do Prata 02 (Fabiano Bacchieri, Rodrigo Jacques e Guilherme Collares)","Palco Tropa Entregue"],["18h","Mérito Agronômico","Casa da Amizade"],["19h","Remate Santa Eulália","Pavilhão Álvaro Azevedo"],["19h","Show internacional de Catherine Vergnes","Pavilhão Jorge Gertum"],["19h15","Grupo de Danzas Folklóricas Argentinas \"Jirón Gaucho\" e Grupo Música Folklórica Entre Amigos","Palco Tropa Entregue"],["20h","Jantar da Confraria do Vinho","Restaurante"]],
- 10:[["8h","Concentração dos animais da raça Crioula","Pavilhão 7"],["8h","Julgamento de Admissão raça Brangus","Centro de Manejo"],["9h","Julgamento de Classificação das Raças Ovinas lã e mista","Pista D"],["9h","Julgamento de Admissão da Raça Pônei","Pista A"],["10h","Admissão dos animais da raça Crioula","Pavilhão 7"],["10h","Viva RS","Pavilhão Jorge Gertum"],["11h30","Cabanheiro do Futuro","Pista D"],["14h","Julgamento Morfológico dos animais da raça Crioula","Pista B"],["14h","Grandes campeonatos da Raça Pônei","Pista A"],["14h","Arte na Rural","Salão Nobre"]],
- 11:[["7h","III Concurso de Assado Ovino e I Concurso de Costelão","Pista D"],["8h30","Julgamentos Morfológicos dos animais da raça Crioula","Pista A"],["9h","União Nativa ao Vivo (Alex Moreira e Matt Thofehrn), Tema Festivais, participação Os Andeiros","Palco Tropa Entregue"],["9h30","Provas Funcionais Raça Pônei","Pista B"],["10h","Viva RS","Pavilhão Jorge Gertum"],["10h","Julgamento de Classificação Animais Jovens da Raça Jersey","Pista D"],["10h30","Julgamento de Classificação da Raça Holandês","Galpão 6"],["12h","Entrega de Prêmios da Raça Holandês","Núcleo Holandês"],["14h","Demonstração de esquila","Galpão 8"]],
- 12:[["8h","Julgamento de Classificação da raça Brangus - Argola","Pista E"],["10h","Demonstrativo de pastoreio de rebanho com cães Border Collie","Pista D"],["10h","Viva RS","Pavilhão Jorge Gertum"],["10h","Concurso Puxador Mirim da Raça Jersey","Pista D"],["12h","Entrega de Prêmios e Almoço de Confraternização da Raça Jersey","Núcleo Jersey"],["14h","Arte na Rural","Salão Nobre"],["14h","Demonstração de esquila Tally-Hi","Galpão de Ovinos 8"],["14h","Demonstrativo de pastoreio de rebanho com cães Border Collie","Pista D"],["15h","Desfile dos Campeões","Pistas A e B"]]
-};
-
-const mins=t=>{const[h,m]=t.split('h');return(+h)*60+(+m||0)};
-const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const YEAR=2026, days=Object.keys(DATA).map(Number);
-const today=new Date();
-let cur=(today.getFullYear()===YEAR&&today.getMonth()===9&&days.includes(today.getDate()))?today.getDate():days[0];
-
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nav=document.getElementById('days');
-nav.innerHTML=days.map(d=>{const w=WEEK[new Date(YEAR,9,d).getDay()].slice(0,3);return `<button class="day" role="tab" data-d="${d}">${String(d).padStart(2,'0')}/10<small>${w}</small></button>`}).join('');
-nav.addEventListener('click',e=>{const b=e.target.closest('.day');if(b){cur=+b.dataset.d;render()}});
-document.getElementById('q').addEventListener('input',render);
+const search=document.getElementById('q');
+const list=document.getElementById('list');
+const pill=document.getElementById('pill');
+const hours=document.getElementById('hours');
+let agenda, days=[], cur;
+const shortTime=t=>t.replace(/^0/,'').replace(':00','h').replace(':','h');
+const dateFor=day=>new Date(day+'T12:00:00Z');
+const dateLabel=(day,options)=>dateFor(day).toLocaleDateString('pt-BR',{...options,timeZone:'UTC'});
+
+nav.addEventListener('click',e=>{
+  const button=e.target.closest('.day');
+  if(button){cur=button.dataset.d;render()}
+});
+search.addEventListener('input',render);
 
 function render(){
-  nav.querySelectorAll('.day').forEach(b=>b.setAttribute('aria-selected',+b.dataset.d===cur));
-  const q=document.getElementById('q').value.trim().toLowerCase();
-  const wd=new Date(YEAR,9,cur).getDay();
-  document.getElementById('pill').innerHTML=`<b>${String(cur).padStart(2,'0')} de outubro</b><span class="sep">|</span>${WEEK[wd]}`;
-  const holiday=HOLIDAYS.includes(cur), weekend=wd===0||wd===6;
-  const label=holiday?'Feriado':weekend?'Fim de semana':'Segunda a sexta-feira';
-  document.getElementById('hours').innerHTML=`<h2>Funcionamento<small>${label}</small></h2><ul>${HOURS.map(([n,wk,we])=>{
-    const h=holiday||weekend?we:wk;
-    return `<li${h?'':' class="off"'}><span>${n}</span><b>${h||'Sem horário informado'}</b></li>`;
-  }).join('')}</ul>`;
-  const items=DATA[cur].map((e,i)=>({t:e[0],n:e[1],l:e[2],i}))
-    .sort((a,b)=>mins(a.t)-mins(b.t)||a.i-b.i)
-    .filter(e=>!q||(e.n+' '+e.l).toLowerCase().includes(q));
-  document.getElementById('list').innerHTML=items.length?items.map(e=>`
-    <li class="card">
-      <div class="time">${e.t}</div><div class="bar"></div>
-      <div><h3>${esc(e.n)}${CONF.includes(e.l)?'<span class="tag">Conferência</span>':''}</h3>
-      ${e.l?`<div class="loc">${PIN}${esc(e.l)}</div>`:''}</div>
-    </li>`).join(''):'<li class="empty">Nenhum evento encontrado neste dia.</li>';
+  if(!cur)return;
+  nav.querySelectorAll('.day').forEach(b=>b.setAttribute('aria-pressed',b.dataset.d===cur));
+  pill.textContent=dateLabel(cur,{day:'2-digit',month:'long',weekday:'long'});
+  renderHours();
+  const q=search.value.trim().toLocaleLowerCase('pt-BR');
+  const items=agenda.dias[cur]
+    .map(row=>Object.fromEntries(agenda.campos.map((field,i)=>[field,row[i]])))
+    .filter(e=>!q||[e.titulo,e.local].join(' ').toLocaleLowerCase('pt-BR').includes(q))
+    .sort((a,b)=>(a.hora??'99:99').localeCompare(b.hora??'99:99'));
+  let pending=false;
+  list.innerHTML=items.length?items.map(e=>{
+    const category=agenda.tipos[e.tipo];
+    const source=agenda.fontes[e.fonte??agenda.fonte_padrao];
+    let sourceText=esc(source.descricao);
+    if(source.url){
+      const url=new URL(source.url);
+      if(['https:','http:'].includes(url.protocol)){
+        sourceText=`<a href="${esc(url.href)}" target="_blank" rel="noopener noreferrer">${sourceText}</a>`;
+      }
+    }
+    const heading=e.hora===null&&!pending?'<li class="pending-heading"><h2>Horário a confirmar</h2></li>':'';
+    if(e.hora===null)pending=true;
+    return heading+`
+      <li class="card">
+        <div class="time">${e.hora===null?'A confirmar':esc(e.hora)}</div><div class="bar"></div>
+        <div><h3>${esc(e.titulo)} <span class="tag">${esc(category.icon)} ${esc(category.name)}</span></h3>
+          <div class="loc">${PIN}${esc(e.local??'Local não informado')}</div>
+          ${e.observacao?`<p class="note">${esc(e.observacao)}</p>`:''}
+          <details class="source"><summary>Fonte</summary><p>${sourceText}</p></details>
+        </div>
+      </li>`;
+  }).join(''):'<li class="empty">Nenhum evento encontrado neste dia.</li>';
 }
-render();
-nav.querySelector(`[data-d="${cur}"]`).scrollIntoView({inline:'center',block:'nearest'});
+
+// Funcionamento do dia selecionado: dias úteis x sábados, domingos e feriados.
+function renderHours(){
+  const f=agenda.funcionamento;
+  if(!f?.areas?.length){hours.hidden=true;return}
+  const wd=dateFor(cur).getUTCDay();
+  const holiday=(agenda.feriados??[]).includes(cur), weekend=wd===0||wd===6;
+  const label=holiday?'Feriado':weekend?'Fim de semana':'Segunda a sexta-feira';
+  hours.innerHTML=`<h2>Funcionamento<small>${label}</small></h2><ul>${f.areas.map(([area,wk,we])=>{
+    const p=holiday||weekend?we:wk;
+    const text=!p?'Sem horário informado':p[1]?`${shortTime(p[0])} às ${shortTime(p[1])}`:`A partir das ${shortTime(p[0])}`;
+    return `<li${p?'':' class="off"'}><span>${esc(area)}</span><b>${text}</b></li>`;
+  }).join('')}</ul>`;
+  hours.hidden=false;
+}
+
+function renderVisitorInfo(){
+  const section=document.getElementById('visitor-info');
+  const source=agenda.fontes[agenda.fonte_informacoes];
+  const groups=[['Restaurantes',agenda.restaurantes],['Experiências',agenda.experiencias]];
+  section.innerHTML=groups.filter(([,items])=>items?.length).map(([title,items])=>    `<details><summary>${esc(title)}</summary><ul class="info-grid">${items.map(item=>{
+      const row=item.data?agenda.dias[item.data]?.find(row=>row[agenda.campos.indexOf('titulo')]===item.titulo_evento):null;
+      const event=row?Object.fromEntries(agenda.campos.map((field,i)=>[field,row[i]])):null;
+      return `<li class="info-card"><h3>${esc(item.nome)}</h3>
+        ${(item.horarios??[]).map(text=>`<p>${esc(text)}</p>`).join('')}
+        ${item.data?`<p>${esc(dateLabel(item.data,{day:'2-digit',month:'long',weekday:'long'}))}</p><p><strong>${esc(event?.hora??'Horário a confirmar')}</strong></p><p>${esc(event?.local??'Local não informado')}</p>`:''}
+        ${item.observacao?`<p>${esc(item.observacao)}</p>`:''}</li>`;
+    }).join('')}</ul>${source?`<p class="info-source">Fonte: ${esc(source.descricao)}</p>`:''}</details>`).join('');
+  section.hidden=!section.innerHTML;
+}
+
+async function loadAgenda(){
+  search.disabled=true;
+  list.setAttribute('aria-busy','true');
+  list.innerHTML='<li class="empty">Carregando programação…</li>';
+  try{
+    const response=await fetch('./eventos.json');
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const data=await response.json();
+    if(!data.dias||!Array.isArray(data.campos)||!data.tipos||!data.fontes||
+       !['hora','titulo','tipo','local','fonte','observacao'].every(field=>data.campos.includes(field))){
+      throw new Error('Estrutura da programação inválida');
+    }
+    days=Object.keys(data.dias).sort();
+    for(const day of days){
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(day)||!Number.isFinite(dateFor(day).getTime())||
+         !Array.isArray(data.dias[day]))throw new Error('Data inválida');
+      for(const row of data.dias[day]){
+        if(!Array.isArray(row))throw new Error('Evento inválido');
+        const event=Object.fromEntries(data.campos.map((field,i)=>[field,row[i]]));
+        if(typeof event.titulo!=='string'||!event.titulo||
+           !(event.hora===null||typeof event.hora==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(event.hora))||
+           !(event.local===null||typeof event.local==='string')||
+           !Object.hasOwn(data.tipos,event.tipo)||!Object.hasOwn(data.fontes,event.fonte??data.fonte_padrao)){
+          throw new Error('Evento inválido');
+        }
+      }
+    }
+    agenda=data;
+    renderVisitorInfo();
+    if(!days.length){
+      pill.hidden=true;
+      list.innerHTML='<li class="empty">Programação ainda não disponível.</li>';
+      return;
+    }
+    const today=new Intl.DateTimeFormat('sv-SE',{timeZone:data.timezone,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+    cur=days.includes(today)?today:days[0];
+    nav.innerHTML=days.map(day=>`<button class="day" type="button" data-d="${day}" aria-pressed="false">${dateLabel(day,{day:'2-digit',month:'2-digit'})}<small>${WEEK[dateFor(day).getUTCDay()].slice(0,3)}</small></button>`).join('');
+    render();
+    search.disabled=false;
+    nav.querySelector(`[data-d="${cur}"]`).scrollIntoView({inline:'center',block:'nearest'});
+  }catch(error){
+    cur=undefined;
+    nav.innerHTML='';
+    pill.hidden=true;
+    list.innerHTML='<li class="empty" role="alert">Não foi possível carregar a programação. Atualize a página para tentar novamente.</li>';
+    console.error('Falha ao carregar eventos.json:',error);
+  }finally{
+    list.setAttribute('aria-busy','false');
+  }
+}
+loadAgenda();
 </script>
 </body>
 </html>
