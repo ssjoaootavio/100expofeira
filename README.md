@@ -19,24 +19,20 @@ https://ssjoaootavio.github.io/100expofeira/
 
 ## Funcionalidades
 
-A versão inicial da agenda inclui:
-
-- Visualizações por semana, dia e lista.
-- Pesquisa por nome, assunto ou local.
-- Filtros por tipo de evento.
-- Identificação das categorias por cor, ícone e texto.
-- Detalhes dos eventos com horário, local e fonte.
-- Layout adaptado para computadores e celulares.
-- Indicação de horários ainda não confirmados.
+- Navegação pelos 8 dias da feira, todos visíveis em grade; a página abre no **dia atual**, marcado como **HOJE**.
+- Pesquisa por nome do evento ou local.
+- Cards com horário, título, categoria, local, observações e fonte.
+- Eventos com horário ainda não confirmado agrupados no fim do dia.
 - Horários de funcionamento do dia selecionado (expositores, Fazendinha, praça de alimentação e Conferência Rural), distinguindo dias úteis de fins de semana e feriado.
+- Painéis de restaurantes e experiências.
+- **Compartilhar nos stories:** cada evento gera uma imagem 9:16 (1080×1920) com a identidade da feira, para compartilhar no Instagram pelo celular ou baixar.
+- Layout pensado primeiro para celular.
 
 ## Status do projeto
 
-O projeto está em evolução:
-
-- A agenda carrega os eventos diretamente de `eventos.json`.
-- O arquivo `eventos.json` centraliza a programação, as categorias e as fontes.
-- A integração inclui estados de carregamento, erro e busca sem resultados, além de fontes e observações.
+- A agenda carrega todos os dados de `eventos.json` (fonte única); não há dados no HTML.
+- A programação completa ainda não foi verificada (`programacao_completa_verificada: false`).
+- Documentação técnica em [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md) e histórico de decisões em [`docs/HISTORICO.md`](docs/HISTORICO.md).
 
 Alterações no JSON são exibidas quando a página é carregada novamente.
 
@@ -48,20 +44,20 @@ Alterações no JSON são exibidas quando a página é carregada novamente.
 - JSON
 - GitHub Pages
 
-A versão inicial não exige framework, banco de dados ou etapa de compilação.
+Não exige framework, banco de dados ou etapa de compilação.
 
 ## Arquivos
 
 | Arquivo | Finalidade |
 |---|---|
-| `expofeira.html` | Versão inicial da agenda |
-| `agenda-expofeira.html` | HTML de referência com a identidade visual do evento |
-| `eventos.json` | Base de programação para integração com a agenda |
+| `expofeira.html` | A agenda (HTML, CSS e JavaScript em um único arquivo) |
+| `eventos.json` | Dados: programação, categorias, fontes, feriados, funcionamento, restaurantes e experiências |
 | `README.md` | Documentação do projeto |
-| `AGENTS.md` | Instruções compartilhadas para agentes de IA (Claude, Codex, Antigravity) |
+| `AGENTS.md` | Regras para agentes de IA (Claude, Codex, Antigravity) |
+| `CLAUDE.md`, `GEMINI.md` | Apontam para o `AGENTS.md` |
 | `TAREFAS.md` | Quadro de tarefas e passagem de bastão entre agentes |
-
-Esta tabela descreve os arquivos previstos para o projeto. A presença de cada arquivo depende de seu envio ao repositório.
+| `docs/ARQUITETURA.md` | Documentação técnica do código e dos dados |
+| `docs/HISTORICO.md` | Histórico de entregas e decisões |
 
 ## Programação
 
@@ -159,9 +155,15 @@ O HTML e o JSON precisam estar na mesma pasta para esse caminho funcionar.
 
 ## Executar localmente
 
-Para a versão que utiliza `fetch`, sirva os arquivos por HTTP. Abrir o HTML diretamente com duplo clique pode impedir o carregamento do JSON.
+Sirva os arquivos por HTTP. Abrir o HTML diretamente com duplo clique impede o carregamento do JSON e a página mostra erro.
 
-Uma opção é usar a extensão **Live Server** no Visual Studio Code:
+Com Python instalado, na pasta do projeto:
+
+    python -m http.server 8765
+
+e abra http://localhost:8765/expofeira.html.
+
+Outra opção é usar a extensão **Live Server** no Visual Studio Code:
 
 1. Abra a pasta do projeto no VS Code.
 2. Instale a extensão Live Server, caso ainda não esteja instalada.
@@ -212,6 +214,8 @@ A programação pode sofrer alterações. Consulte os canais oficiais antes de s
 - [x] Integrar o HTML ao `eventos.json`.
 - [ ] Aplicar e revisar a identidade visual do evento.
 - [x] Exibir estados de carregamento, erro e busca sem resultados.
+- [x] Compartilhar eventos nos stories do Instagram (imagem 9:16).
+- [ ] Cores por categoria nos cards e filtro por tipo.
 - [ ] Verificar a programação completa.
 - [ ] Permitir salvar eventos em uma agenda pessoal.
 - [ ] Adicionar exportação para calendário.
