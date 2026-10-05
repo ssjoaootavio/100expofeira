@@ -29,6 +29,7 @@ GitHub Pages (branch main)
 | Data | `#pill` | "Hoje, segunda-feira, 05 de outubro" |
 | Funcionamento | `section#hours` | Horários das áreas no dia selecionado |
 | Eventos | `ul#list` | Cards `.card` (azul e dourado alternados) |
+| Rodapé | `footer` | Descrição da agenda, endereço, link do Instagram e "Programação sujeita a alterações" (estático) |
 | Stories | `dialog#story` | Prévia da imagem 9:16 + botões Compartilhar / Baixar / Fechar |
 
 ## JavaScript

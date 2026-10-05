@@ -148,7 +148,12 @@
   .hours li span{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3}
   .hours li b{display:block;font-size:17px;font-weight:800;margin-top:2px}
   .hours li.off b{font-size:14px;font-weight:600;color:var(--muted)}
-  footer{border-top:1px solid #E3E7EF;margin-top:var(--s6);padding-top:var(--s3);text-align:center;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+  footer{border-top:1px solid #E3E7EF;margin-top:var(--s6);padding-top:var(--s3);text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
+  footer p+p{margin-top:var(--s1)}
+  footer b{color:var(--ink);font-weight:700}
+  footer a{color:var(--navy-600);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+  footer a:focus-visible{outline:3px solid var(--gold-400);outline-offset:2px}
+  footer .notice{margin-top:var(--s3);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
 
   @media (max-width:520px){
     .day{padding:6px 2px;font-size:13px;border-radius:14px}
@@ -189,7 +194,12 @@
     <div class="date-pill" id="pill"></div>
     <section class="hours" id="hours" aria-label="Horários de funcionamento" hidden></section>
     <ul class="list" id="list" aria-live="polite"></ul>
-    <footer>Programação sujeita a alterações</footer>
+    <footer>
+      <p>Agenda interativa para consultar a programação da 100ª Expofeira de Pelotas, realizada de 5 a 12 de outubro de 2026, no Parque de Exposições Ildefonso Simões Lopes, na Associação Rural de Pelotas.</p>
+      <p><b>Endereço:</b> Avenida Fernando Osório, 1.754 — Pelotas/RS.</p>
+      <p><b>Instagram:</b> <a href="https://www.instagram.com/expofeirapelotas/" target="_blank" rel="noopener noreferrer">@expofeirapelotas</a></p>
+      <p class="notice">Programação sujeita a alterações</p>
+    </footer>
   </div>
 </main>
 

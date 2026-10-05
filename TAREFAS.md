@@ -44,3 +44,4 @@ _(nenhuma)_
 | 2026-10-05 | Claude | Agenda cultural oficial: 8 eventos novos (06, 10, 11 e 12/10); Tholl e Quarteto renomeados ("Sicredi apresenta..."); acentos de Jirón Gaucho corrigidos; shows da Rua Coberta unificados sem duplicar. Total: 136 eventos. |
 | 2026-10-05 | Claude | Compartilhar evento nos stories (imagem 9:16); documentação completa para os agentes (`docs/ARQUITETURA.md`, `docs/HISTORICO.md`), README atualizado ao estado real, AGENTS.md com leitura obrigatória. |
 | 2026-10-05 | Claude | Fonte única "Instagram 100ª Expofeira de Pelotas"; observações internas removidas dos cards (ficaram 2, úteis ao visitante); `Co-Authored-By: Claude` removido de todos os commits. |
+| 2026-10-05 | Claude | Rodapé com descrição da agenda, endereço do parque e link do Instagram oficial. |
