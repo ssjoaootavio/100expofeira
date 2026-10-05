@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agenda · 100ª Expofeira de Pelotas</title>
+<style>
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, sans-serif;
+  color: #202124;
+  background: #f8f9fa;
+}
+* { box-sizing: border-box }
+body { margin: 0 }
+button,input,select { font: inherit }
+button,select { cursor: pointer }
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible {
+  outline: 3px solid #749ef0;
+  outline-offset: 3px;
+}
+button {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  padding: 9px 13px;
+  color: inherit;
+}
+button:hover { background: #f1f3f4 }
+button.active { background: #202124; color: white; border-color: #202124 }
+header {
+  background: white;
+  padding: 22px 28px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.logo {
+  background: #202124;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+h1 { font-size: 21px; margin: 0 }
+.subtitle { color: #666; font-size: 13px; margin: 6px 0 0 }
+.layout { display: grid; grid-template-columns: 225px minmax(0,1fr) }
+aside { padding: 24px 20px; border-right: 1px solid #e5e7eb }
+aside h2 { font-size: 13px; margin: 24px 0 12px }
+aside h2:first-child { margin-top: 0 }
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block }
+.note { font-size: 13px; color: #666; line-height: 1.6 }
+main { padding: 24px; min-width: 0 }
+.toolbar,.navigation {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.toolbar { justify-content: space-between; margin-bottom: 18px }
+.navigation { margin-bottom: 18px }
+.search {
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  padding: 10px 12px;
+  background: white;
+  width: min(100%,340px);
+}
+.notice {
+  background: #fff7e6;
+  color: #76521b;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+#range { font-weight: 600; margin: 0 8px }
+#count { font-size: 13px; color: #666; margin-left: auto }
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7,minmax(0,1fr));
+  background: white;
+  border: 1px solid #e3e5e8;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.day { min-width: 0; border-right: 1px solid #e8eaed; padding: 10px }
+.day:last-child { border-right: 0 }
+.day-head { text-align: center; padding: 9px 0 20px }
+.day-name { text-transform: uppercase; font-size: 11px; color: #666 }
+.day-number { display: block; font-size: 25px; margin-top: 5px }
+.event {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-left: 3px solid var(--color);
+  background: var(--soft);
+  margin-bottom: 10px;
+  padding: 10px 8px;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+}
+.event:hover { background: var(--soft); filter: brightness(.96) }
+.event-time { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px }
+.event-title { display: block; font-size: 13px; line-height: 1.4 }
+.event-type { display: block; font-size: 11px; color: #555; margin-top: 7px }
+.empty { font-size: 12px; color: #777; text-align: center; padding: 16px 0 }
+.calendar.list { display: block }
+.list .day {
+  display: grid;
+  grid-template-columns: 95px minmax(0,1fr);
+  gap: 18px;
+  border-right: 0;
+  border-bottom: 1px solid #eee;
+  padding: 16px;
+}
+.list .day-head { text-align: left }
+.list .event { padding: 12px 15px }
+.calendar.single { grid-template-columns: 1fr }
+.single .events { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px }
+.single .day-head { text-align: left }
+dialog {
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 25px;
+  max-width: 480px;
+  width: calc(100% - 32px);
+  box-shadow: 0 15px 70px #0002;
+}
+dialog::backdrop { background: #0005 }
+dialog h2 { font-size: 22px; margin: 17px 0 }
+dialog p { line-height: 1.6; font-size: 14px }
+dialog a { color: #245ab5 }
+.close { float: right }
+.badge { font-size: 12px; padding: 5px 9px; border-radius: 5px; display: inline-block }
+footer { margin-top: 18px; color: #777; font-size: 12px }
+@media(max-width:1100px) {
+  .layout { grid-template-columns: 190px minmax(0,1fr) }
+  main { padding: 16px }
+  .calendar:not(.list):not(.single) { grid-template-columns: repeat(3,minmax(0,1fr)) }
+  .day { border-bottom: 1px solid #eee }
+}
+@media(max-width:650px) {
+  header { padding: 18px; align-items: flex-start }
+  h1 { font-size: 18px }
+  .layout { display: block }
+  aside { border-right: 0; padding: 15px 18px; border-bottom: 1px solid #ddd }
+  #filters { display: flex; flex-wrap: wrap; gap: 12px }
+  .filter { margin: 0; font-size: 12px }
+  aside .info { display: none }
+  .calendar:not(.list):not(.single) { grid-template-columns: 1fr }
+  .day-head { text-align: left; padding-bottom: 12px }
+  .day-number { display: inline; font-size: 18px; margin-left: 8px }
+  .single .events { display: block }
+  .list .day { grid-template-columns: 65px minmax(0,1fr); gap: 10px }
+  #count { margin-left: 0; width: 100% }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">100ª</div>
+  <div>
+    <h1>Expofeira de Pelotas</h1>
+    <p class="subtitle">Um século de conexões · 5–12 outubro 2026</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside>
+    <h2>TIPOS DE EVENTO</h2>
+    <div id="filters"></div>
+    <div class="info">
+      <h2>LOCAL</h2>
+      <p class="note">Associação Rural de Pelotas<br>Av. Fernando Osório, 1.754</p>
+      <h2>SOBRE ESTA AGENDA</h2>
+      <p class="note">Seleção dos eventos coletados. Os cartões indicam o início; a duração não foi divulgada.</p>
+      <p class="note">Tecnologia e IA só serão etiquetadas quando confirmadas na programação.</p>
+    </div>
+  </aside>
+
+  <main>
+    <div class="toolbar">
+      <input id="search" class="search" type="search"
+        placeholder="Buscar evento, tema ou local…"
+        aria-label="Buscar eventos">
+      <div aria-label="Visualização">
+        <button data-view="week" class="active" aria-pressed="true">Semana</button>
+        <button data-view="day" aria-pressed="false">Dia</button>
+        <button data-view="list" aria-pressed="false">Lista</button>
+      </div>
+    </div>
+
+    <div class="notice">
+      Programação parcial · Só Angus: fontes divergem entre 18h e 19h.
+    </div>
+
+    <div class="navigation">
+      <button id="prev" aria-label="Período anterior">‹</button>
+      <button id="next" aria-label="Próximo período">›</button>
+      <span id="range"></span>
+      <span id="count" aria-live="polite"></span>
+    </div>
+
+    <div id="calendar" class="calendar"></div>
+    <footer>Horário de Pelotas · Clique em um evento para ver os detalhes e a fonte.</footer>
+  </main>
+</div>
+
+<dialog id="details">
+  <button class="close" id="close" aria-label="Fechar detalhes">✕</button>
+  <div id="detail-content"></div>
+</dialog>
+
+<script>
+const types = {
+  palestra: {name:"Palestras",icon:"🎤",color:"#356bd3",soft:"#eaf1ff"},
+  cultura: {name:"Cultura",icon:"🎭",color:"#8854bb",soft:"#f2eafb"},
+  infantil: {name:"Infantil",icon:"🧸",color:"#a47a16",soft:"#fff5d7"},
+  exposicao: {name:"Exposições",icon:"🖼️",color:"#338363",soft:"#e8f5ee"},
+  leilao: {name:"Leilões",icon:"🔨",color:"#be4e4e",soft:"#fcecec"},
+  cerimonia: {name:"Cerimônias",icon:"🎖️",color:"#68717d",soft:"#edf0f3"}
+};
+
+const sources = {
+  jtr:"https://www.jornaltradicao.com.br/pelotas/rural/expofeira-pelotas-chega-a-sua-100a-edicao-com-muitas-atracoes/",
+  arte:"https://ahoradosul.com.br/conteudos/2026/10/03/arte-na-rural-lanca-catalogo-na-abertura-da-exposicao/",
+  camara:"https://www.pelotas.rs.leg.br/noticia/camara-esta-presente-na-100a-expofeira-de-pelotas/ed5d8c63cb7a5f59efea30597959a321",
+  ucpel:"https://ucpel.edu.br/index.php/noticias/ucpel-promove-conferencia-rural-na-100a-expofeira",
+  tv:"https://tvelcampo.com.br/agenda"
+};
+
+const events = [];
+function add(day,time,title,type,place,source="jtr",description="") {
+  events.push({id:events.length,day,time,title,type,place,source,description});
+}
+
+add(5,"18:00","Abertura · Arte na Rural","exposicao","Salão da Associação Rural","arte");
+add(5,"19:00","Brangus Piratini","leilao","Associação Rural");
+add(6,"19:00","Leilão Montana","leilao","Associação Rural");
+add(7,"20:00","Crioulo de Pelotas","leilao","Associação Rural");
+add(8,"18:00","Folklore do Prata","cultura","Palco Tropa Entregue","jtr",
+  "Canto e História Rural do Prata. Fabiano Bacchieri, Rodrigo Jacques e Guilherme Collares.");
+add(8,"19:00","Abertura oficial da Expofeira","cerimonia","Salão Nobre","camara");
+add(8,"19:00","Crédito Rural: Desafio do Produtor Gaúcho","palestra","Casa da Amizade","ucpel",
+  "Com Francisco Torma. Evento gratuito, sem inscrição prévia. Tema: crédito rural e negócios.");
+add(8,"19:00","Genética em Dose Dupla","leilao","Associação Rural");
+add(9,"18:00","Folklore do Prata","cultura","Palco Tropa Entregue");
+add(9,"19:00","Catherine Vernes","cultura","Pavilhão Jorge Gertum");
+add(9,"19:00","Santa Eulália","leilao","Associação Rural");
+add(10,"19:00","Hereford da Fronteira","leilao","Associação Rural");
+add(11,"15:00","Tholl · 100 anos Expofeira","cultura","Pavilhão Jorge Gertum");
+add(11,null,"Só Angus · horário a confirmar","leilao","Associação Rural","jtr",
+  "O Jornal Tradição anuncia 18h. A TV El Campo anuncia 19h. Confirme antes de ir.");
+add(12,"16:00","Leilão da raça Pônei","leilao","Associação Rural");
+add(12,"18:00","Quarteto Coração de Potro","cultura","Pavilhão Jorge Gertum");
+
+for(let day=5;day<=12;day++) {
+  add(day,day<10?"14:00":"10:00","Fazendinha","infantil","Antigo pavilhão do Gado Holandês","jtr",
+    "Visitação a partir deste horário. Atração gratuita; o ingresso do parque segue a cobrança do dia. Encerramento não informado.");
+}
+
+let view="week", selectedDay=5, selectedWeek=0;
+const enabled=new Set(Object.keys(types));
+const calendar=document.getElementById("calendar");
+const search=document.getElementById("search");
+const dialog=document.getElementById("details");
+const weekday=["dom","seg","ter","qua","qui","sex","sáb"];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+const normalized=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+
+document.getElementById("filters").innerHTML=Object.entries(types).map(([key,t])=>
+  `<label class="filter">
+    <input type="checkbox" value="${key}" checked>
+    <span class="dot" style="background:${t.color}"></span>
+    ${t.icon} ${t.name}
+  </label>`
+).join("");
+
+document.getElementById("filters").addEventListener("change",e=>{
+  e.target.checked?enabled.add(e.target.value):enabled.delete(e.target.value);
+  render();
+});
+
+function visibleDays() {
+  if(view==="day") return [selectedDay];
+  if(view==="list") return [5,6,7,8,9,10,11,12];
+  return selectedWeek===0?[5,6,7,8,9,10,11]:[12];
+}
+
+function render() {
+  const days=visibleDays(),query=normalized(search.value);
+  const filtered=events.filter(e=>enabled.has(e.type) &&
+    normalized([e.title,e.place,e.description,types[e.type].name].join(" ")).includes(query));
+
+  calendar.className="calendar"+(view==="list"?" list":view==="day"?" single":"");
+  calendar.innerHTML=days.map(day=>{
+    const dayEvents=filtered.filter(e=>e.day===day)
+      .sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99"));
+    const date=new Date(2026,9,day);
+    return `<section class="day" aria-label="${day} de outubro">
+      <div class="day-head">
+        <span class="day-name">${weekday[date.getDay()]}</span>
+        <span class="day-number">${day}</span>
+      </div>
+      <div class="events">${dayEvents.length?dayEvents.map(e=>{
+        const t=types[e.type];
+        return `<button class="event" data-event="${e.id}"
+          style="--color:${t.color};--soft:${t.soft}">
+          <span class="event-time">${e.time||"A confirmar"}</span>
+          <span class="event-title">${esc(e.title)}</span>
+          <span class="event-type">${t.icon} ${t.name}</span>
+        </button>`;
+      }).join(""):'<p class="empty">Nenhum evento neste filtro</p>'}</div>
+    </section>`;
+  }).join("");
+
+  const total=filtered.filter(e=>days.includes(e.day)).length;
+  document.getElementById("count").textContent=`${total} eventos exibidos`;
+  document.getElementById("range").textContent=
+    days.length===1?`${days[0]} outubro 2026`:`${days[0]}–${days.at(-1)} outubro 2026`;
+
+  document.getElementById("prev").disabled=view==="list"||
+    (view==="day"?selectedDay===5:selectedWeek===0);
+  document.getElementById("next").disabled=view==="list"||
+    (view==="day"?selectedDay===12:selectedWeek===1);
+}
+
+document.querySelectorAll("[data-view]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    view=button.dataset.view;
+    document.querySelectorAll("[data-view]").forEach(b=>{
+      const active=b===button;
+      b.classList.toggle("active",active);
+      b.setAttribute("aria-pressed",active);
+    });
+    render();
+  });
+});
+
+document.getElementById("prev").onclick=()=>{
+  if(view==="day") selectedDay=Math.max(5,selectedDay-1);
+  else selectedWeek=0;
+  render();
+};
+document.getElementById("next").onclick=()=>{
+  if(view==="day") selectedDay=Math.min(12,selectedDay+1);
+  else selectedWeek=1;
+  render();
+};
+search.addEventListener("input",render);
+
+calendar.addEventListener("click",event=>{
+  const button=event.target.closest("[data-event]");
+  if(!button) return;
+  const e=events[Number(button.dataset.event)],t=types[e.type];
+  document.getElementById("detail-content").innerHTML=`
+    <span class="badge" style="background:${t.soft};color:${t.color}">${t.icon} ${t.name}</span>
+    <h2>${esc(e.title)}</h2>
+    <p>📅 ${e.day} de outubro de 2026<br>
+    🕒 ${e.time||"18h ou 19h · a confirmar"}<br>
+    📍 ${esc(e.place)}</p>
+    ${e.description?`<p>${esc(e.description)}</p>`:""}
+    <p class="note">Horário de término não divulgado.</p>
+    <p><a href="${sources[e.source]}" target="_blank" rel="noopener noreferrer">Consultar fonte ↗</a>
+    ${e.time===null?` · <a href="${sources.tv}" target="_blank" rel="noopener noreferrer">Ver divergência ↗</a>`:""}</p>`;
+  dialog.showModal();
+});
+document.getElementById("close").onclick=()=>dialog.close();
+render();
+</script>
+</body>
+</html>
