@@ -68,8 +68,8 @@ Esta tabela descreve os arquivos previstos para o projeto. A presença de cada a
 A base preparada reúne:
 
 - **109 registros** da transcrição dos stories fornecida para o projeto.
-- **19 registros complementares** obtidos em outras fontes e nas imagens fornecidas.
-- **128 registros no total**, incluindo ocorrências diárias de atividades recorrentes.
+- **27 registros complementares** obtidos em outras fontes, nas imagens e na agenda cultural oficial.
+- **136 registros no total**, incluindo ocorrências diárias de atividades recorrentes.
 
 A programação completa ainda não foi verificada. A quantidade de registros pode mudar após revisões.
 

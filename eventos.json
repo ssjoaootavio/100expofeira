@@ -65,6 +65,7 @@
   "campos": ["hora", "titulo", "tipo", "local", "fonte", "observacao"],
   "fonte_padrao": "stories",
   "fontes": {
+    "agenda_cultural": {"descricao": "Carrossel Programação Cultural (05 a 12/10) de @expofeirapelotas, capturas fornecidas pelo usuário em 05/10/2026. Links individuais não fornecidos."},
     "posts_shows_usuario": {"descricao": "Capturas das postagens de @expofeirapelotas fornecidas pelo usuário em 05/10/2026: Beto Borges (07/10), Ñanderekó Chamamé (10/10) e Os Andeiros (11/10), às 18h no Palco da Rua Coberta. Links individuais não fornecidos."},
     "cards_usuario": {"descricao": "Imagens de horários de funcionamento, restaurantes e experiências fornecidas pelo usuário em 05/10/2026."},
     "stories": {
@@ -178,6 +179,7 @@
       ["14:00", "Mostra UFPel", "exposicao", "Pavilhão Jorge Gertum"],
       ["14:00", "Admissão da Raça Charolês", "julgamento", "Centro de Manejo"],
       ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 18h30. A imagem de funcionamento informa abertura às 13h30; a fonte jtr anteriormente utilizada indicava 14h. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
+      ["18:00", "O Chamamé e o Rasguido Doble", "cultura", "Palco Tropa Entregue", "agenda_cultural"],
       ["19:00", "Workshop de Carnes Angus", "gastronomia", null, "cards_usuario"],
       ["19:00", "Leilão Montana", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."]
     ],
@@ -193,7 +195,7 @@
       ["14:00", "Julgamento de Classificação da Raça Angus - Nacional", "julgamento", "Pista E"],
       ["14:00", "Julgamento de Admissão das raças Hereford e Braford", "julgamento", "Centro de Manejo"],
       ["13:30", "Fazendinha", "infantil", "Antigo pavilhão do Gado Holandês", "cards_usuario", "Funcionamento até 18h30. A imagem de funcionamento informa abertura às 13h30; a fonte jtr anteriormente utilizada indicava 14h. Local e informação de gratuidade provenientes da fonte jtr; o ingresso do parque segue a cobrança do dia."],
-      ["18:00","Beto Borges","cultura","Palco da Rua Coberta","posts_shows_usuario"],
+      ["18:00", "Beto Borges", "cultura", "Palco Tropa Entregue", "agenda_cultural", "As postagens individuais do show citam Palco da Rua Coberta; a agenda cultural oficial indica Palco Tropa Entregue."],
       ["20:00", "Crioulo de Pelotas", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."]
     ],
     "2026-10-08": [
@@ -245,7 +247,7 @@
       ["18:00", "Mérito Agronômico", "cerimonia", "Casa da Amizade"],
       ["19:00", "Remate Santa Eulália", "leilao", "Pavilhão Álvaro Azevedo"],
       ["19:00", "Show internacional de Catherine Vergnes", "cultura", "Pavilhão Jorge Gertum"],
-      ["19:15", "Grupo de Danzas Folkloricas Argentinas Jiron Gaucho e Grupo Musica Folklorica Entre Amigos", "cultura", "Palco Tropa Entregue"],
+      ["19:15", "Grupo de Danzas Folklóricas Argentinas Jirón Gaucho e Grupo Música Folklórica Entre Amigos", "cultura", "Palco Tropa Entregue"],
       ["20:00", "Jantar da Confraria do Vinho", "gastronomia", "Restaurante"]
     ],
     "2026-10-10": [
@@ -260,8 +262,12 @@
       ["14:00", "Julgamento Morfológico dos animais da raça Crioula", "julgamento", "Pista B"],
       ["14:00", "Grandes campeonatos da Raça Pônei", "julgamento", "Pista A"],
       ["14:00", "Arte na Rural", "exposicao", "Salão Nobre"],
-      ["18:00","Ñanderekó Chamamé","cultura","Palco da Rua Coberta","posts_shows_usuario"],
-      ["19:00", "Hereford da Fronteira", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."]
+      ["15:00", "CTG Cantinhos da Tradição", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural", "Nome conforme a agenda cultural. Um comentário na postagem sugere outro nome (\"DTG Caminhos da...\", texto cortado na captura); não confirmado."],
+      ["16:00", "Jirón Gaucho + Entre Amigos", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural", "Segunda apresentação dos grupos; a primeira é em 09/10, às 19h15, no Palco Tropa Entregue."],
+      ["17:00", "CTG Raízes", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"],
+      ["18:00", "Ñanderekó Chamamé", "cultura", "Palco Tropa Entregue", "agenda_cultural", "As postagens individuais do show citam Palco da Rua Coberta; a agenda cultural oficial indica Palco Tropa Entregue."],
+      ["19:00", "Hereford da Fronteira", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."],
+      ["19:00", "Grupo Carqueja", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"]
     ],
     "2026-10-11": [
       ["07:00", "III Concurso de Assado Ovino e I Concurso de Costelão", "gastronomia", "Pista D"],
@@ -274,8 +280,9 @@
       ["10:30", "Julgamento de Classificação da Raça Holandês", "julgamento", "Galpão 6"],
       ["12:00", "Entrega de Prêmios da Raça Holandês", "cerimonia", "Núcleo Holandês"],
       ["14:00", "Demonstração de esquila", "demonstracao", "Galpão 8"],
-      ["15:00", "Tholl — 100 anos Expofeira", "cultura", "Pavilhão Jorge Gertum", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."],
-      ["18:00","Os Andeiros","cultura","Palco da Rua Coberta","posts_shows_usuario"],
+      ["15:00", "Sicredi apresenta Tholl — 100 Anos Expofeira", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural", "Também noticiado pelo Jornal Tradição Regional (fonte jtr)."],
+      ["18:00", "Os Andeiros", "cultura", "Palco Tropa Entregue", "agenda_cultural", "As postagens individuais do show citam Palco da Rua Coberta; a agenda cultural oficial indica Palco Tropa Entregue."],
+      ["22:00", "Tri Baile", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"],
       [null, "Leilão Só Angus", "leilao", "Associação Rural", "jtr", "Horário a confirmar: Jornal Tradição informa 18h; TV El Campo informa 19h. Consulte também a fonte tv."]
     ],
     "2026-10-12": [
@@ -289,8 +296,10 @@
       ["14:00", "Demonstração de esquila Tally-Hi", "demonstracao", "Galpão de Ovinos 8"],
       ["14:00", "Demonstrativo de pastoreio de rebanho com cães Border Collie", "demonstracao", "Pista D"],
       ["15:00", "Desfile dos Campeões", "cerimonia", "Pistas A e B"],
+      ["15:00", "Ballet Sabrina de Freitas", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"],
       ["16:00", "Leilão da raça Pônei", "leilao", "Associação Rural", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."],
-      ["18:00", "Quarteto Coração de Potro", "cultura", "Pavilhão Jorge Gertum", "jtr", "Evento complementar encontrado na imprensa; não aparece na transcrição fornecida."]
+      ["16:00", "Grupo de Invernada Escola Libório", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural"],
+      ["18:00", "Sicredi apresenta Quarteto Coração de Potro", "cultura", "Pavilhão Jorge Gertum", "agenda_cultural", "Também noticiado pelo Jornal Tradição Regional (fonte jtr)."]
     ]
   }
 }
