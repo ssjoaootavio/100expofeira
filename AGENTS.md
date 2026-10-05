@@ -35,6 +35,8 @@ O dono do projeto alterna entre agentes conforme os limites de uso de cada um. P
 - Manter o estilo atual: JavaScript compacto, sem bibliotecas, CSS com as variáveis de `:root` (azul-marinho `--navy-*`, dourado `--gold-*`, fonte Montserrat).
 - Escapar todo texto vindo de dados com `esc()` antes de inserir em `innerHTML`.
 - A página precisa funcionar bem em celular (375px de largura) — é o uso principal.
+- Os botões de dia ficam em grade (4 por linha), todos visíveis: não voltar para rolagem lateral, que impedia chegar aos dias 11 e 12.
+- Não exibir emojis na interface (o campo `icon` de `tipos` no JSON não é usado na página).
 - Arquivos usam UTF-8 e quebras de linha CRLF (Windows, `core.autocrlf=true`).
 
 ## Como validar antes de entregar

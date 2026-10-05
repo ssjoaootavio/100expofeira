@@ -73,11 +73,11 @@
   .brand-mini div span{display:block;font-size:30px}
 
   /* abas de dia */
-  .days{display:flex;gap:var(--s1);overflow-x:auto;padding:4px 2px var(--s2);scrollbar-width:none;position:sticky;top:0;background:var(--white);z-index:5}
-  .days::-webkit-scrollbar{display:none}
+  /* todos os dias visíveis em grade, sem rolagem lateral */
+  .days{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s1);padding:4px 2px var(--s2);position:sticky;top:0;background:var(--white);z-index:5}
   .day{
-    flex:none;border:1.5px solid var(--navy-600);background:var(--white);color:var(--navy-600);
-    border-radius:var(--radius-pill);padding:8px 16px;font:700 14px var(--font);cursor:pointer;transition:.15s;
+    min-width:0;border:1.5px solid var(--navy-600);background:var(--white);color:var(--navy-600);
+    border-radius:var(--radius-pill);padding:8px 4px;font:700 14px var(--font);cursor:pointer;transition:.15s;
   }
   .day small{font-weight:400;margin-left:4px}
   .day[aria-pressed="true"]{background:var(--navy-600);color:var(--white)}
@@ -135,6 +135,8 @@
   footer{border-top:1px solid #E3E7EF;margin-top:var(--s6);padding-top:var(--s3);text-align:center;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
 
   @media (max-width:520px){
+    .day{padding:6px 2px;font-size:13px;border-radius:14px}
+    .day small{display:block;margin-left:0}
     .sheet::before,.sheet::after{width:14px;background-size:14px 56px}
     .sheet{padding-left:22px;padding-right:22px}
     .card{grid-template-columns:60px 1px 1fr;gap:12px;padding-right:var(--s2)}
@@ -221,7 +223,7 @@ function render(){
     return heading+`
       <li class="card">
         <div class="time">${e.hora===null?'A confirmar':esc(e.hora)}</div><div class="bar"></div>
-        <div><h3>${esc(e.titulo)} <span class="tag">${esc(category.icon)} ${esc(category.name)}</span></h3>
+        <div><h3>${esc(e.titulo)} <span class="tag">${esc(category.name)}</span></h3>
           <div class="loc">${PIN}${esc(e.local??'Local não informado')}</div>
           ${e.observacao?`<p class="note">${esc(e.observacao)}</p>`:''}
           <details class="source"><summary>Fonte</summary><p>${sourceText}</p></details>
@@ -299,7 +301,6 @@ async function loadAgenda(){
     nav.innerHTML=days.map(day=>`<button class="day" type="button" data-d="${day}" aria-pressed="false">${dateLabel(day,{day:'2-digit',month:'2-digit'})}<small>${WEEK[dateFor(day).getUTCDay()].slice(0,3)}</small></button>`).join('');
     render();
     search.disabled=false;
-    nav.querySelector(`[data-d="${cur}"]`).scrollIntoView({inline:'center',block:'nearest'});
   }catch(error){
     cur=undefined;
     nav.innerHTML='';
