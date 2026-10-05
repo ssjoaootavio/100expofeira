@@ -81,6 +81,8 @@
   }
   .day small{font-weight:400;margin-left:4px}
   .day[aria-pressed="true"]{background:var(--navy-600);color:var(--white)}
+  .day.today{border-color:var(--gold-400);box-shadow:inset 0 0 0 1.5px var(--gold-400)}
+  .day.today small{font-weight:800;letter-spacing:.04em}
   .day:focus-visible,.search:focus-visible{outline:3px solid var(--gold-400);outline-offset:2px}
 
   .search{width:100%;border:1.5px solid #D5DAE6;border-radius:var(--radius-pill);padding:12px 18px;font:400 15px var(--font);color:var(--ink);margin-bottom:var(--s3)}
@@ -186,7 +188,8 @@ const search=document.getElementById('q');
 const list=document.getElementById('list');
 const pill=document.getElementById('pill');
 const hours=document.getElementById('hours');
-let agenda, days=[], cur;
+let agenda, days=[], cur, today;
+const todayKey=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:agenda.timezone,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const shortTime=t=>t.replace(/^0/,'').replace(':00','h').replace(':','h');
 const dateFor=day=>new Date(day+'T12:00:00Z');
 const dateLabel=(day,options)=>dateFor(day).toLocaleDateString('pt-BR',{...options,timeZone:'UTC'});
@@ -196,11 +199,28 @@ nav.addEventListener('click',e=>{
   if(button){cur=button.dataset.d;render()}
 });
 search.addEventListener('input',render);
+// Se a aba ficou aberta e virou o dia, acompanha a nova data (salvo se a pessoa escolheu outro dia).
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState!=='visible'||!agenda||!days.length)return;
+  const t=todayKey();
+  if(t===today)return;
+  const follow=cur===today||!days.includes(today);
+  today=t;
+  if(follow&&days.includes(t))cur=t;
+  renderNav();render();
+});
+
+function renderNav(){
+  nav.innerHTML=days.map(day=>{
+    const isToday=day===today;
+    return `<button class="day${isToday?' today':''}" type="button" data-d="${day}" aria-pressed="false"${isToday?' aria-current="date"':''}>${dateLabel(day,{day:'2-digit',month:'2-digit'})}<small>${isToday?'HOJE':WEEK[dateFor(day).getUTCDay()].slice(0,3)}</small></button>`;
+  }).join('');
+}
 
 function render(){
   if(!cur)return;
   nav.querySelectorAll('.day').forEach(b=>b.setAttribute('aria-pressed',b.dataset.d===cur));
-  pill.textContent=dateLabel(cur,{day:'2-digit',month:'long',weekday:'long'});
+  pill.textContent=(cur===today?'Hoje, ':'')+dateLabel(cur,{day:'2-digit',month:'long',weekday:'long'});
   renderHours();
   const q=search.value.trim().toLocaleLowerCase('pt-BR');
   const items=agenda.dias[cur]
@@ -296,9 +316,9 @@ async function loadAgenda(){
       list.innerHTML='<li class="empty">Programação ainda não disponível.</li>';
       return;
     }
-    const today=new Intl.DateTimeFormat('sv-SE',{timeZone:data.timezone,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+    today=todayKey();
     cur=days.includes(today)?today:days[0];
-    nav.innerHTML=days.map(day=>`<button class="day" type="button" data-d="${day}" aria-pressed="false">${dateLabel(day,{day:'2-digit',month:'2-digit'})}<small>${WEEK[dateFor(day).getUTCDay()].slice(0,3)}</small></button>`).join('');
+    renderNav();
     render();
     search.disabled=false;
   }catch(error){

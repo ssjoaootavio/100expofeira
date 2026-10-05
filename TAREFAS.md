@@ -34,3 +34,4 @@ _(nenhuma)_
 | 2026-10-05 | Codex | Integração HTML ↔ JSON, restaurantes, experiências e novos eventos (deixado sem commit na worktree `~/.codex/worktrees/abbc` quando o limite acabou). |
 | 2026-10-05 | Claude | Trouxe o trabalho do Codex para a `main`; `funcionamento` unificado no formato estruturado (lido pelo bloco do dia); painéis do topo ficaram só com restaurantes e experiências; fonte única `cards_usuario`; AGENTS.md atualizado (JSON é a fonte única). |
 | 2026-10-05 | Claude | Dias em grade (todos visíveis, sem rolagem lateral — não era possível chegar a 11 e 12/10); etiquetas de categoria sem emoji. |
+| 2026-10-05 | Claude | Dia atual destacado como HOJE (botão e data); a aba aberta acompanha a virada do dia ao voltar a ficar visível, salvo se a pessoa escolheu outro dia. |
