@@ -112,6 +112,20 @@
   .tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid currentColor;border-radius:var(--radius-pill);padding:1px 7px;margin-left:6px;vertical-align:2px;opacity:.85}
   .empty{text-align:center;color:var(--muted);padding:var(--s6) 0}
 
+  /* compartilhar nos stories */
+  .share{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:none;color:inherit;border:1.5px solid currentColor;border-radius:var(--radius-pill);padding:4px 12px;font:700 11px var(--font);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;opacity:.9}
+  .share svg{width:14px;height:14px}
+  .share:hover{opacity:1}
+  .share:focus-visible{outline:3px solid var(--gold-300);outline-offset:2px}
+  .story{border:none;border-radius:var(--radius-card);padding:var(--s2);width:min(420px,calc(100% - 32px));max-height:calc(100% - 32px);margin:auto;color:var(--ink);font-family:var(--font)}
+  .story::backdrop{background:rgba(13,33,68,.75)}
+  .story img{display:block;width:auto;max-width:100%;height:min(60vh,560px);aspect-ratio:9/16;margin:0 auto var(--s2);border-radius:12px;background:var(--navy-900)}
+  .story p{font-size:12.5px;line-height:1.5;color:var(--muted);text-align:center;margin-bottom:var(--s2)}
+  .story .actions{display:grid;gap:var(--s1)}
+  .story button{border:1.5px solid var(--navy-600);border-radius:var(--radius-pill);padding:12px;font:700 14px var(--font);cursor:pointer;background:var(--white);color:var(--navy-600)}
+  .story button.primary{background:var(--navy-600);color:var(--white)}
+  .story button:focus-visible{outline:3px solid var(--gold-400);outline-offset:2px}
+
   .note,.source{font-size:12px;line-height:1.5;margin-top:8px}
   .source a{color:inherit;overflow-wrap:anywhere}
   .source summary{cursor:pointer}
@@ -179,6 +193,16 @@
   </div>
 </main>
 
+<dialog class="story" id="story" aria-label="Compartilhar evento nos stories">
+  <img id="story-img" alt="">
+  <p id="story-hint"></p>
+  <div class="actions">
+    <button class="primary" id="story-share" type="button">Compartilhar</button>
+    <button id="story-download" type="button">Baixar imagem</button>
+    <button id="story-close" type="button">Fechar</button>
+  </div>
+</dialog>
+
 <script>
 const PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
 const WEEK=['DOMINGO','SEGUNDA-FEIRA','TERÇA-FEIRA','QUARTA-FEIRA','QUINTA-FEIRA','SEXTA-FEIRA','SÁBADO'];
@@ -188,7 +212,8 @@ const search=document.getElementById('q');
 const list=document.getElementById('list');
 const pill=document.getElementById('pill');
 const hours=document.getElementById('hours');
-let agenda, days=[], cur, today;
+const SHARE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>';
+let agenda, days=[], cur, today, shown=[];
 const todayKey=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:agenda.timezone,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const shortTime=t=>t.replace(/^0/,'').replace(':00','h').replace(':','h');
 const dateFor=day=>new Date(day+'T12:00:00Z');
@@ -227,8 +252,9 @@ function render(){
     .map(row=>Object.fromEntries(agenda.campos.map((field,i)=>[field,row[i]])))
     .filter(e=>!q||[e.titulo,e.local].join(' ').toLocaleLowerCase('pt-BR').includes(q))
     .sort((a,b)=>(a.hora??'99:99').localeCompare(b.hora??'99:99'));
+  shown=items;
   let pending=false;
-  list.innerHTML=items.length?items.map(e=>{
+  list.innerHTML=items.length?items.map((e,i)=>{
     const category=agenda.tipos[e.tipo];
     const source=agenda.fontes[e.fonte??agenda.fonte_padrao];
     let sourceText=esc(source.descricao);
@@ -247,6 +273,7 @@ function render(){
           <div class="loc">${PIN}${esc(e.local??'Local não informado')}</div>
           ${e.observacao?`<p class="note">${esc(e.observacao)}</p>`:''}
           <details class="source"><summary>Fonte</summary><p>${sourceText}</p></details>
+          <button class="share" type="button" data-i="${i}" aria-label="Compartilhar ${esc(e.titulo)} nos stories">${SHARE}Stories</button>
         </div>
       </li>`;
   }).join(''):'<li class="empty">Nenhum evento encontrado neste dia.</li>';
@@ -331,6 +358,154 @@ async function loadAgenda(){
     list.setAttribute('aria-busy','false');
   }
 }
+// ---------- Compartilhar nos stories (imagem 1080x1920, 9:16) ----------
+// Fluxo: botão do card gera a imagem e abre a prévia; o botão "Compartilhar" da prévia
+// chama navigator.share com o arquivo (precisa de um toque novo — exigência do iOS).
+// Sem Web Share de arquivos (computador), a imagem é baixada.
+const story=document.getElementById('story');
+const storyImg=document.getElementById('story-img');
+const storyShare=document.getElementById('story-share');
+let storyFile, storyUrl, storyText;
+const SITE=location.hostname.endsWith('github.io')?location.host+location.pathname:'ssjoaootavio.github.io/100expofeira/expofeira.html';
+const LEAF=[new Path2D('M86 10C48 12 22 32 20 64c-1 9 2 18 7 24 4-24 18-42 40-54-18 15-30 33-34 56 34-4 54-30 53-80z'),new Path2D('M14 40c-10 14-8 34 6 46 0-15 5-28 15-38-8 2-15-1-21-8z')];
+
+// Quebra o texto em linhas que caibam em maxWidth com a fonte atual do contexto.
+function wrapText(ctx,text,maxWidth){
+  const lines=[];let line='';
+  for(const word of text.split(/\s+/)){
+    const test=line?line+' '+word:word;
+    if(ctx.measureText(test).width<=maxWidth||!line)line=test;
+    else{lines.push(line);line=word}
+  }
+  if(line)lines.push(line);
+  return lines;
+}
+
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}
+
+async function drawStory(e){
+  const css=getComputedStyle(document.documentElement);
+  const c=n=>css.getPropertyValue(n).trim();
+  const NAVY=c('--navy-600'), NAVY7=c('--navy-700'), NAVY9=c('--navy-900'), GOLD=c('--gold-400'), MUTED=c('--muted');
+  const F='Montserrat, system-ui, sans-serif';
+  await Promise.all(['300','700','800','900'].map(w=>document.fonts.load(`${w} 64px Montserrat`)));
+  const W=1080, H=1920, cv=document.createElement('canvas');
+  cv.width=W;cv.height=H;
+  const ctx=cv.getContext('2d');
+
+  // fundo azul com textura de pontos, como a capa da página
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,NAVY);bg.addColorStop(.45,NAVY7);bg.addColorStop(1,NAVY9);
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.06)';
+  for(let y=0;y<H;y+=18)for(let x=0;x<W;x+=18){ctx.beginPath();ctx.arc(x,y,2,0,Math.PI*2);ctx.fill()}
+
+  // cabeçalho (abaixo da área ocupada pela barra do Instagram)
+  ctx.textAlign='center';ctx.fillStyle='#fff';
+  ctx.font=`900 120px ${F}`;ctx.fillText('100',W/2-90,330);
+  ctx.textAlign='left';ctx.font=`700 30px ${F}`;
+  ctx.fillText('EXPOFEIRA',W/2+20,295);ctx.fillText('PELOTAS',W/2+20,330);
+  ctx.textAlign='center';ctx.font=`300 46px ${F}`;
+  ctx.letterSpacing='14px';ctx.fillText('AGENDA',W/2+7,430);ctx.letterSpacing='0px';
+
+  // medidas do conteúdo do cartão branco
+  const PAD=80, CX=90, CW=W-2*CX, TW=CW-2*PAD;
+  const time=e.hora===null?'A confirmar':shortTime(e.hora);
+  let size=76, lines;
+  do{ctx.font=`800 ${size}px ${F}`;lines=wrapText(ctx,e.titulo,TW);size-=4}while(lines.length>5&&size>44);
+  const titleSize=size+4, lh=Math.round(titleSize*1.15);
+  ctx.font=`600 38px ${F}`;
+  const locLines=wrapText(ctx,e.local??'Local não informado',TW-56).slice(0,2);
+  const cardH=PAD+70+60+(e.hora===null?110:170)+40+lines.length*lh+40+64+40+locLines.length*50+PAD-20;
+  const CY=Math.max(500,Math.min(560,(H-cardH)/2-60));
+
+  ctx.fillStyle='#fff';roundRect(ctx,CX,CY,CW,cardH,48);ctx.fill();
+  let y=CY+PAD;
+
+  // pílula da data
+  const dateText=dateLabel(cur,{weekday:'long',day:'2-digit',month:'long'}).toLocaleUpperCase('pt-BR');
+  ctx.strokeStyle=NAVY;ctx.lineWidth=3;roundRect(ctx,CX+PAD,y,TW,70,35);ctx.stroke();
+  ctx.fillStyle=NAVY;ctx.font=`700 32px ${F}`;ctx.textAlign='center';ctx.fillText(dateText,W/2,y+47);
+  y+=70+60;
+
+  // horário
+  ctx.textAlign='left';
+  if(e.hora===null){ctx.font=`900 80px ${F}`;y+=80;ctx.fillText(time,CX+PAD,y);y+=30}
+  else{ctx.font=`900 150px ${F}`;y+=130;ctx.fillText(time,CX+PAD,y);y+=40}
+  ctx.fillStyle=GOLD;ctx.fillRect(CX+PAD,y,140,8);y+=40;
+
+  // título
+  ctx.fillStyle=NAVY;ctx.font=`800 ${titleSize}px ${F}`;
+  for(const l of lines){y+=titleSize;ctx.fillText(l,CX+PAD,y);y+=lh-titleSize}
+  y+=40;
+
+  // etiqueta da categoria
+  const cat=agenda.tipos[e.tipo].name.toLocaleUpperCase('pt-BR');
+  ctx.font=`700 28px ${F}`;ctx.letterSpacing='3px';
+  const tw=ctx.measureText(cat).width+56;
+  ctx.fillStyle=GOLD;roundRect(ctx,CX+PAD,y,tw,64,32);ctx.fill();
+  ctx.fillStyle=NAVY;ctx.fillText(cat,CX+PAD+28,y+43);ctx.letterSpacing='0px';
+  y+=64+40;
+
+  // local, com ícone de pino
+  ctx.save();ctx.translate(CX+PAD,y+4);ctx.scale(1.75,1.75);
+  ctx.strokeStyle=MUTED;ctx.lineWidth=2;ctx.lineJoin='round';
+  ctx.stroke(new Path2D('M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z'));
+  ctx.beginPath();ctx.arc(12,9.5,2.5,0,Math.PI*2);ctx.stroke();ctx.restore();
+  ctx.fillStyle=MUTED;ctx.font=`600 38px ${F}`;
+  locLines.forEach((l,i)=>ctx.fillText(l,CX+PAD+56,y+36+i*50));
+
+  // rodapé com folha, datas e endereço da agenda (acima da barra de resposta dos stories)
+  const fy=Math.max(CY+cardH+120,1560);
+  ctx.save();ctx.translate(W/2-250,fy-70);ctx.scale(.9,.9);ctx.fillStyle='#fff';
+  ctx.fill(LEAF[0]);ctx.globalAlpha=.85;ctx.fill(LEAF[1]);ctx.restore();
+  ctx.fillStyle='#fff';ctx.textAlign='left';ctx.font=`900 64px ${F}`;
+  ctx.fillText('05 – 12 OUT.',W/2-140,fy);
+  ctx.textAlign='center';ctx.fillStyle=GOLD;ctx.font=`700 30px ${F}`;
+  ctx.fillText(SITE,W/2,fy+70);
+  ctx.fillStyle='rgba(255,255,255,.7)';ctx.font=`600 24px ${F}`;ctx.letterSpacing='4px';
+  ctx.fillText('PROGRAMAÇÃO SUJEITA A ALTERAÇÕES',W/2+2,fy+120);ctx.letterSpacing='0px';
+
+  return new Promise(res=>cv.toBlob(res,'image/png'));
+}
+
+list.addEventListener('click',async ev=>{
+  const btn=ev.target.closest('.share');
+  if(!btn)return;
+  const e=shown[+btn.dataset.i];
+  btn.disabled=true;
+  try{
+    const blob=await drawStory(e);
+    const slug=e.titulo.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+    storyFile=new File([blob],`expofeira-${cur}-${slug}.png`,{type:'image/png'});
+    if(storyUrl)URL.revokeObjectURL(storyUrl);
+    storyUrl=URL.createObjectURL(blob);
+    storyText=`${e.titulo} — ${dateLabel(cur,{weekday:'long',day:'2-digit',month:'long'})}, ${e.hora===null?'horário a confirmar':shortTime(e.hora)}, ${e.local??'local não informado'}. Agenda da 100ª Expofeira: https://${SITE}`;
+    storyImg.src=storyUrl;
+    storyImg.alt=`Imagem para stories: ${e.titulo}`;
+    const canShare=!!navigator.canShare?.({files:[storyFile]});
+    storyShare.hidden=!canShare;
+    document.getElementById('story-hint').textContent=canShare
+      ?'Toque em Compartilhar e escolha Instagram → Stories.'
+      :'Baixe a imagem e publique nos stories pelo app do Instagram no celular.';
+    story.showModal();
+  }catch(err){
+    console.error('Falha ao gerar a imagem do evento:',err);
+    alert('Não foi possível gerar a imagem deste evento.');
+  }finally{btn.disabled=false}
+});
+
+storyShare.addEventListener('click',async()=>{
+  try{await navigator.share({files:[storyFile],title:'100ª Expofeira de Pelotas',text:storyText})}
+  catch(err){if(err.name!=='AbortError')console.error('Falha ao compartilhar:',err)}
+});
+document.getElementById('story-download').addEventListener('click',()=>{
+  const a=document.createElement('a');
+  a.href=storyUrl;a.download=storyFile.name;a.click();
+});
+document.getElementById('story-close').addEventListener('click',()=>story.close());
+story.addEventListener('click',ev=>{if(ev.target===story)story.close()});
+
 loadAgenda();
 </script>
 </body>
