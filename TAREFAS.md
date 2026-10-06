@@ -4,7 +4,7 @@ Quadro compartilhado entre Claude, Codex e Antigravity. Regras em `AGENTS.md`; c
 
 ## Em andamento
 
-_(nenhuma)_
+- **Layout de desktop em duas colunas** (Claude) — branch `claude/transcribe-analyze-evaluations-54410e`, worktree `.claude/worktrees/transcribe-analyze-evaluations-54410e`. Proposta a partir da avaliação de uma designer: em telas ≥1024px, coluna fixa à esquerda (restaurantes, experiências, funcionamento) e agenda em grade de cards à direita. Celular inalterado. Implementado e testado em 375px e 1366px. **Aguardando aprovação do dono antes de ir para a `main`.**
 
 ## A fazer (por prioridade)
 
@@ -45,3 +45,4 @@ _(nenhuma)_
 | 2026-10-05 | Claude | Compartilhar evento nos stories (imagem 9:16); documentação completa para os agentes (`docs/ARQUITETURA.md`, `docs/HISTORICO.md`), README atualizado ao estado real, AGENTS.md com leitura obrigatória. |
 | 2026-10-05 | Claude | Fonte única "Instagram 100ª Expofeira de Pelotas"; observações internas removidas dos cards (ficaram 2, úteis ao visitante); `Co-Authored-By: Claude` removido de todos os commits. |
 | 2026-10-05 | Claude | Rodapé com descrição da agenda, endereço do parque e link do Instagram oficial. |
+| 2026-10-06 | Claude | Avaliação em áudio de uma designer transcrita e analisada. Proposta de layout de desktop (duas colunas, cards em grade) na branch `claude/transcribe-analyze-evaluations-54410e`, aguardando aprovação. Pendências da avaliação: mapa/expositores (sem material oficial), destaque infantil (tarefa 1), ícones. |

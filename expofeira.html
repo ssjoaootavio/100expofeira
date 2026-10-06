@@ -65,7 +65,10 @@
   }
   .sheet::before{left:0}
   .sheet::after{right:0;transform:scaleX(-1)}
-  .wrap{max-width:640px;margin:0 auto;position:relative;z-index:1}
+  .wrap{max-width:640px;margin:0 auto;position:relative;z-index:1;display:flex;flex-direction:column}
+  /* no celular as colunas se desfazem e a ordem é: info, dias, busca, data, funcionamento, lista */
+  .side,.side-in,.agenda{display:contents}
+  .visitor-info{order:1}.days{order:2}.search{order:3}.date-pill{order:4}.hours{order:5}.list{order:6}footer{order:7}
 
   .brand-mini{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--navy-600);margin-bottom:var(--s3)}
   .brand-mini svg{width:44px}
@@ -166,6 +169,33 @@
     .hours li b{font-size:15px}
     .sign{display:none}
   }
+
+  /* ---------- COMPUTADOR: duas colunas e cards em grade ---------- */
+  @media (min-width:1024px){
+    .sheet{padding-left:var(--s6);padding-right:var(--s6)}
+    .wrap{max-width:1280px;display:grid;grid-template-columns:340px minmax(0,1fr);gap:var(--s4);align-items:start}
+    /* a coluna ocupa a altura da agenda; o conteúdo fica fixo sem invadir o rodapé */
+    .side{display:block;align-self:stretch}
+    .side-in{display:flex;flex-direction:column;gap:var(--s3);position:sticky;top:var(--s2);max-height:calc(100vh - var(--s4));overflow-y:auto;padding:2px}
+    .agenda{display:block;min-width:0}
+    .visitor-info,.hours{margin-bottom:0}
+    .hours{order:0} /* muda com o dia escolhido: fica no topo da coluna */
+    .info-grid{grid-template-columns:1fr;padding:12px}
+    .info-card{padding:12px 14px}
+    .hours ul{grid-template-columns:1fr}
+    .days{grid-template-columns:repeat(8,1fr);padding-top:var(--s1)}
+    .day small{display:block;margin-left:0}
+    .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:var(--s2)}
+    .pending-heading,.empty{grid-column:1/-1}
+    .card{grid-template-columns:1fr;grid-template-rows:auto auto 1fr;align-items:start;align-content:start;gap:10px;padding:var(--s2) 20px 20px;min-height:220px}
+    .card .time{text-align:left;font-size:26px;font-weight:900}
+    .card .bar{width:40px;height:3px;align-self:auto}
+    .card>div:last-child{display:flex;flex-direction:column;height:100%}
+    .card .tag{display:table;margin:8px 0 0}
+    .card .share{align-self:flex-start;margin-top:auto}
+    .card .source{margin-bottom:12px}
+    footer{grid-column:1/-1}
+  }
 </style>
 </head>
 <body>
@@ -188,12 +218,16 @@
 
 <main class="sheet">
   <div class="wrap">
-    <section id="visitor-info" class="visitor-info" aria-label="Informações para sua visita" hidden></section>
-    <nav class="days" aria-label="Dias da programação" id="days"></nav>
-    <input class="search" id="q" type="search" placeholder="Buscar evento, raça ou local…" aria-label="Buscar">
-    <div class="date-pill" id="pill"></div>
-    <section class="hours" id="hours" aria-label="Horários de funcionamento" hidden></section>
-    <ul class="list" id="list" aria-live="polite"></ul>
+    <aside class="side"><div class="side-in">
+      <section id="visitor-info" class="visitor-info" aria-label="Informações para sua visita" hidden></section>
+      <section class="hours" id="hours" aria-label="Horários de funcionamento" hidden></section>
+    </div></aside>
+    <div class="agenda">
+      <nav class="days" aria-label="Dias da programação" id="days"></nav>
+      <input class="search" id="q" type="search" placeholder="Buscar evento, raça ou local…" aria-label="Buscar">
+      <div class="date-pill" id="pill"></div>
+      <ul class="list" id="list" aria-live="polite"></ul>
+    </div>
     <footer>
       <p>Agenda interativa para consultar a programação da 100ª Expofeira de Pelotas, realizada de 5 a 12 de outubro de 2026, no Parque de Exposições Ildefonso Simões Lopes, na Associação Rural de Pelotas.</p>
       <p><b>Endereço:</b> Avenida Fernando Osório, 1.754 — Pelotas/RS.</p>
@@ -304,11 +338,16 @@ function renderHours(){
   hours.hidden=false;
 }
 
+// No computador os painéis ficam na coluna fixa da esquerda, já abertos; no celular, fechados.
+const DESKTOP=matchMedia('(min-width:1024px)');
+DESKTOP.addEventListener('change',e=>document.querySelectorAll('#visitor-info details').forEach(d=>d.open=e.matches));
+
 function renderVisitorInfo(){
   const section=document.getElementById('visitor-info');
   const source=agenda.fontes[agenda.fonte_informacoes];
   const groups=[['Restaurantes',agenda.restaurantes],['Experiências',agenda.experiencias]];
-  section.innerHTML=groups.filter(([,items])=>items?.length).map(([title,items])=>    `<details><summary>${esc(title)}</summary><ul class="info-grid">${items.map(item=>{
+  const open=DESKTOP.matches?' open':'';
+  section.innerHTML=groups.filter(([,items])=>items?.length).map(([title,items])=>    `<details${open}><summary>${esc(title)}</summary><ul class="info-grid">${items.map(item=>{
       const row=item.data?agenda.dias[item.data]?.find(row=>row[agenda.campos.indexOf('titulo')]===item.titulo_evento):null;
       const event=row?Object.fromEntries(agenda.campos.map((field,i)=>[field,row[i]])):null;
       return `<li class="info-card"><h3>${esc(item.nome)}</h3>

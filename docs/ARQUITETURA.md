@@ -22,7 +22,8 @@ GitHub Pages (branch main)
 | Elemento | id / classe | Conteúdo |
 |---|---|---|
 | Capa | `header.hero` | "100 Expofeira Pelotas", "Agenda / Programação Expofeira", "05 – 12 OUT." (estático) |
-| Folha branca | `main.sheet > .wrap` | Todo o conteúdo dinâmico (largura máx. 640px) |
+| Folha branca | `main.sheet > .wrap` | Todo o conteúdo dinâmico (largura máx. 640px no celular, 1280px no computador) |
+| Colunas | `aside.side > .side-in` e `div.agenda` | Lateral (funcionamento, restaurantes, experiências) e agenda (dias, busca, data, eventos). No celular são `display:contents` e a ordem vem de `order` |
 | Informações da visita | `#visitor-info` | Painéis `<details>` de Restaurantes e Experiências |
 | Dias | `nav#days` | 8 botões `.day` em grade 4×2 (fixa no topo ao rolar — `position:sticky`) |
 | Busca | `input#q` | Filtra por título e local |
@@ -164,6 +165,7 @@ O 6º campo (`observacao`) **aparece no card para o público**. Use só para inf
 - Fonte: Montserrat (300 a 900).
 - Sem emojis na interface.
 - Mobile primeiro: testar em 375px. Regras específicas em `@media (max-width:520px)`.
+- Computador (`@media (min-width:1024px)`): duas colunas — lateral fixa de 340px (`.side-in`, `position:sticky`, com rolagem própria) e agenda com cards em grade (`auto-fill`, mín. 250px). A constante `DESKTOP` (`matchMedia`) abre os painéis de Restaurantes/Experiências no computador e fecha no celular, acompanhando o redimensionamento.
 - Datas sempre no padrão brasileiro: botões `DD/MM`, textos por extenso em pt-BR.
 
 ## Armadilhas conhecidas
@@ -173,4 +175,6 @@ O 6º campo (`observacao`) **aparece no card para o público**. Use só para inf
 - **Alternância azul/dourado** usa `.card:nth-child(even)`; o `<li class="pending-heading">` ("Horário a confirmar") conta na contagem e pode quebrar a alternância depois dele.
 - **Testes que simulam data** (sobrescrever `Date`) deixam a página num estado falso — recarregar ao terminar, para não confundir quem olhar a tela.
 - **CRLF**: o repositório usa `core.autocrlf=true`; scripts que editam texto devem preservar `\r\n`.
+- **Ordem no celular**: `.side`, `.side-in` e `.agenda` usam `display:contents`; a ordem visual é dada por `order` em `.visitor-info`, `.days`, `.search`, `.date-pill`, `.hours`, `.list` e `footer`. Elemento novo dentro de `.wrap` precisa de `order`, senão vai para o topo.
+- **Lateral fixa e rodapé**: o `sticky` fica em `.side-in` (não em `.side`) para a lateral parar no fim da agenda, sem cobrir o rodapé.
 - **Ordem de carregamento**: `drawStory` depende de `agenda` e `cur`; só é chamado depois do carregamento (os botões só existem após `render`).

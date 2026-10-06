@@ -62,6 +62,14 @@ Problemas encontrados: a página mostrava só os 109 eventos embutidos no HTML (
 - **Atenção:** 5 leilões e o local da Fazendinha vieram originalmente do Jornal Tradição Regional e agora exibem Instagram como fonte — listados no `TAREFAS.md` para conferência.
 - As linhas `Co-Authored-By: Claude` foram removidas de todos os commits (histórico reescrito; exigiu push forçado). Commits futuros não devem ter atribuição a agentes de IA.
 
+## 06/10/2026
+
+### Layout de desktop em duas colunas (Claude)
+- **Origem:** avaliação em áudio de uma designer. No computador, a página ficava como uma coluna estreita de 640px no centro e sobrava espaço nas laterais. Ela sugeriu restaurantes e experiências fixos à esquerda, a agenda à direita e os eventos em blocos ("enquadradinho"), não em lista.
+- Em telas ≥1024px: lateral fixa com Funcionamento (no topo, porque muda com o dia), Restaurantes e Experiências já abertos; à direita, os 8 dias em uma linha, busca, data e cards em grade (3 colunas em 1366px).
+- **Celular sem mudança**: mesma ordem e mesmo visual (as colunas usam `display:contents` abaixo de 1024px).
+- Outros pontos da avaliação ficaram para depois: mapa e lista de expositores (não há material oficial; não inventar), destaque para a programação infantil (dados já existem — ver tarefa de cor e filtro por categoria) e ícones (a regra "sem emojis" continua valendo).
+
 ## Preferências do dono do projeto (João Santos)
 
 - Tudo em **português do Brasil**; datas no padrão **DD/MM/AAAA**.
