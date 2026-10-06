@@ -4,7 +4,7 @@ Quadro compartilhado entre Claude, Codex e Antigravity. Regras em `AGENTS.md`; c
 
 ## Em andamento
 
-- **Layout de desktop em duas colunas** (Claude) — branch `claude/transcribe-analyze-evaluations-54410e`, worktree `.claude/worktrees/transcribe-analyze-evaluations-54410e`. Proposta a partir da avaliação de uma designer: em telas ≥1024px, coluna fixa à esquerda (restaurantes, experiências, funcionamento) e agenda em grade de cards à direita. Celular inalterado. Implementado e testado em 375px e 1366px. **Aguardando aprovação do dono antes de ir para a `main`.**
+_(nenhuma)_
 
 ## A fazer (por prioridade)
 
@@ -30,6 +30,7 @@ Quadro compartilhado entre Claude, Codex e Antigravity. Regras em `AGENTS.md`; c
 - **Programação cultural oficial** (Claude): 8 eventos novos, duplicatas unificadas. Total: 136 eventos.
 - **Compartilhar nos stories** (Claude): imagem 1080×1920 por evento, prévia com Compartilhar/Baixar.
 - **Documentação** (Claude): `docs/ARQUITETURA.md`, `docs/HISTORICO.md`, README atualizado.
+- **Layout de desktop** (Claude): em telas ≥1024px, lateral fixa (funcionamento, restaurantes, experiências) e eventos em grade; celular inalterado. Aprovado pelo dono e publicado.
 - **Funcionamento do dia** (Claude): bloco abaixo da data, lido de `funcionamento` + `feriados`, distinguindo dias úteis e fim de semana/feriado. Fazendinha corrigida para 13h30 nos dias úteis.
 
 ## Registro
@@ -45,4 +46,4 @@ Quadro compartilhado entre Claude, Codex e Antigravity. Regras em `AGENTS.md`; c
 | 2026-10-05 | Claude | Compartilhar evento nos stories (imagem 9:16); documentação completa para os agentes (`docs/ARQUITETURA.md`, `docs/HISTORICO.md`), README atualizado ao estado real, AGENTS.md com leitura obrigatória. |
 | 2026-10-05 | Claude | Fonte única "Instagram 100ª Expofeira de Pelotas"; observações internas removidas dos cards (ficaram 2, úteis ao visitante); `Co-Authored-By: Claude` removido de todos os commits. |
 | 2026-10-05 | Claude | Rodapé com descrição da agenda, endereço do parque e link do Instagram oficial. |
-| 2026-10-06 | Claude | Avaliação em áudio de uma designer transcrita e analisada. Proposta de layout de desktop (duas colunas, cards em grade) na branch `claude/transcribe-analyze-evaluations-54410e`, aguardando aprovação. Pendências da avaliação: mapa/expositores (sem material oficial), destaque infantil (tarefa 1), ícones. |
+| 2026-10-06 | Claude | Avaliação em áudio de uma designer transcrita e analisada. Layout de desktop (duas colunas, cards em grade) aprovado e publicado na `main`, junto com o histórico limpo (sem `Co-Authored-By`), que não tinha chegado ao GitHub. Pendências da avaliação: mapa/expositores (sem material oficial), destaque infantil (tarefa 1), ícones. |
